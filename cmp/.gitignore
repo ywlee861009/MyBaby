@@ -1,8 +1,51 @@
-*.iml
-.gradle
+# Gradle
+.gradle/
 build/
-.idea
-.DS_Store
+!gradle/wrapper/gradle-wrapper.jar
 local.properties
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# macOS
+.DS_Store
+
+# Kotlin
+*.kotlin_module
+
+# Android
+captures/
+.externalNativeBuild/
+.cxx/
+
+# iOS / Xcode
+iosApp/Pods/
+iosApp/.symlinks/
+iosApp/iosApp.xcworkspace/xcuserdata/
+iosApp/iosApp.xcodeproj/xcuserdata/
 xcuserdata/
 *.xcworkspace/xcuserdata/
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# CocoaPods
+iosApp/Podfile.lock
+
+# Kotlin Multiplatform
+/shared/build/
+/composeApp/build/
+
+# Generated
+*.apk
+*.aab
+*.ap_
+*.dex
