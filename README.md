@@ -1,6 +1,12 @@
-# 산모수첩 (Maternity Notebook)
+# 품(Pum)
 
-산모와 아기를 위한 기록 및 관리 앱 프로젝트입니다. Compose Multiplatform을 사용하여 Android 및 iOS 앱으로 개발됩니다.
+엄마의 품처럼 따뜻하고 안전하게 아이와의 기록을 간직하는 산모수첩 앱입니다. 
+Compose Multiplatform을 사용하여 Android 및 iOS에서 동일한 감성을 전달합니다.
+
+## 프로젝트 개요
+- **의미:** 아이를 품고 있는 10개월의 시간과, 태어날 아이를 안아줄 엄마의 '품'을 상징합니다.
+- **플랫폼:** Android & iOS (Compose Multiplatform)
+- **주요 가치:** 따뜻함, 안전함(개인 클라우드 저장), 기록의 가치
 
 ## 프로젝트 구조
 

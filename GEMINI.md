@@ -1,8 +1,9 @@
-# Gemini CLI Project Context: 산모수첩 (Maternity Notebook)
+# Gemini CLI Project Context: 품(Pum)
 
 이 파일은 Gemini CLI가 이 프로젝트를 이해하고 작업할 수 있도록 돕는 지침 문서입니다.
 
 ## 프로젝트 개요 (Project Overview)
+- **이름:** 품(Pum) - '엄마의 품'과 '기록을 품다'라는 의미.
 - **목적:** 산모와 아기를 위한 건강 기록 및 관리용 모바일 앱 (Android & iOS).
 - **기술 스택:** 
     - **Language:** Kotlin
