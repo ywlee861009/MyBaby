@@ -3626,14 +3626,29 @@
           "y": 0,
           "descendants": {
             "UCjo2": {
-              "opacity": 0
+              "opacity": 0,
+              "x": 16,
+              "y": 8
+            },
+            "LNHGn": {
+              "x": 8,
+              "y": 8
             },
             "qge78": {
               "content": "아기에게 보내는 편지",
-              "fontFamily": "Noto Sans KR"
+              "fontFamily": "Noto Sans KR",
+              "width": "fill_container",
+              "x": 56,
+              "y": 15
             },
             "iM4PK": {
-              "opacity": 0
+              "opacity": 0,
+              "x": 334,
+              "y": 8
+            },
+            "MFVwG": {
+              "x": 8,
+              "y": 8
             }
           }
         },
@@ -3666,23 +3681,42 @@
               "name": "card1",
               "x": 16,
               "y": 47,
+              "height": "fit_content",
               "descendants": {
                 "T8Myn": {
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "height": "fit_content",
+                  "x": 16,
+                  "y": 16
+                },
+                "jhWsU": {
+                  "width": "fit_content",
+                  "height": "fit_content"
                 },
                 "vK50C": {
-                  "content": "24주차"
+                  "content": "24주차",
+                  "x": 10,
+                  "y": 4
                 },
                 "eZdpf": {
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "x": 63,
+                  "y": 11.5
                 },
                 "FmrYQ": {
                   "x": 253,
-                  "content": "2026. 03. 28"
+                  "content": "2026. 03. 28",
+                  "y": 4.5
                 },
                 "Wfoq5": {
                   "width": "fill_container",
-                  "content": "사랑하는 우리 아가에게. 오늘도 건강하게 잘 자라줘서 정말 고마워. 엄마가 늘 응원하고 있어."
+                  "content": "사랑하는 우리 아가에게. 오늘도 건강하게 잘 자라줘서 정말 고마워. 엄마가 늘 응원하고 있어.",
+                  "x": 16,
+                  "y": 50
+                },
+                "MoYef": {
+                  "x": 16,
+                  "y": 104
                 }
               }
             },
@@ -3694,23 +3728,42 @@
               "name": "card2",
               "x": 16,
               "y": 196,
+              "height": "fit_content",
               "descendants": {
                 "T8Myn": {
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "height": "fit_content",
+                  "x": 16,
+                  "y": 16
+                },
+                "jhWsU": {
+                  "width": "fit_content",
+                  "height": "fit_content"
                 },
                 "vK50C": {
-                  "content": "22주차"
+                  "content": "22주차",
+                  "x": 10,
+                  "y": 4
                 },
                 "eZdpf": {
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "x": 62,
+                  "y": 11.5
                 },
                 "FmrYQ": {
                   "x": 255,
-                  "content": "2026. 03. 14"
+                  "content": "2026. 03. 14",
+                  "y": 4.5
                 },
                 "Wfoq5": {
                   "width": "fill_container",
-                  "content": "콩이야, 오늘 처음으로 태동을 느꼈어. 작은 발길질이 너무 신기하고 설레었어. 빨리 만나고 싶다."
+                  "content": "콩이야, 오늘 처음으로 태동을 느꼈어. 작은 발길질이 너무 신기하고 설레었어. 빨리 만나고 싶다.",
+                  "x": 16,
+                  "y": 50
+                },
+                "MoYef": {
+                  "x": 16,
+                  "y": 104
                 }
               }
             },
@@ -3722,23 +3775,42 @@
               "name": "card3",
               "x": 16,
               "y": 345,
+              "height": "fit_content",
               "descendants": {
                 "T8Myn": {
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "height": "fit_content",
+                  "x": 16,
+                  "y": 16
+                },
+                "jhWsU": {
+                  "width": "fit_content",
+                  "height": "fit_content"
                 },
                 "vK50C": {
-                  "content": "20주차"
+                  "content": "20주차",
+                  "x": 10,
+                  "y": 4
                 },
                 "eZdpf": {
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "x": 63,
+                  "y": 11.5
                 },
                 "FmrYQ": {
                   "x": 253,
-                  "content": "2026. 02. 28"
+                  "content": "2026. 02. 28",
+                  "y": 4.5
                 },
                 "Wfoq5": {
                   "width": "fill_container",
-                  "content": "벌써 중간 지점이 지났네. 앞으로 남은 시간도 건강하게 함께 해줘. 아빠도 너를 많이 기다리고 있어."
+                  "content": "벌써 중간 지점이 지났네. 앞으로 남은 시간도 건강하게 함께 해줘. 아빠도 너를 많이 기다리고 있어.",
+                  "x": 16,
+                  "y": 50
+                },
+                "MoYef": {
+                  "x": 16,
+                  "y": 104
                 }
               }
             }
@@ -3751,7 +3823,13 @@
           "layoutPosition": "absolute",
           "x": 318,
           "y": 677,
-          "name": "fab1"
+          "name": "fab1",
+          "descendants": {
+            "8MeP0": {
+              "x": 16,
+              "y": 16
+            }
+          }
         },
         {
           "id": "KWJx7",
@@ -3761,24 +3839,88 @@
           "name": "bnb1",
           "x": 0,
           "y": 749,
+          "height": "fit_content",
           "descendants": {
+            "fMyKj": {
+              "width": "fill_container",
+              "x": 21,
+              "y": 12
+            },
             "zMgTf": {
-              "fill": "#FFFFFF00"
+              "fill": "#FFFFFF00",
+              "width": "fill_container",
+              "height": "fill_container",
+              "x": 4,
+              "y": 4
             },
             "DEDxD": {
-              "fill": "$color-on-surface-subtle"
+              "fill": "$color-on-surface-subtle",
+              "x": 25,
+              "y": 9
             },
             "dZTKk": {
-              "fill": "$color-on-surface-subtle"
+              "fill": "$color-on-surface-subtle",
+              "x": 29,
+              "y": 31
+            },
+            "Jwm2f": {
+              "width": "fill_container",
+              "height": "fill_container",
+              "x": 72,
+              "y": 4
+            },
+            "94ykc": {
+              "x": 25,
+              "y": 9
+            },
+            "1ieZk": {
+              "x": 24.5,
+              "y": 31
             },
             "5zEnx": {
-              "fill": "$color-primary"
+              "fill": "$color-primary",
+              "width": "fill_container",
+              "height": "fill_container",
+              "x": 140,
+              "y": 4
             },
             "BfXeC": {
-              "fill": "$color-on-primary"
+              "fill": "$color-on-primary",
+              "x": 25,
+              "y": 9
             },
             "8T7I6": {
-              "fill": "$color-on-primary"
+              "fill": "$color-on-primary",
+              "x": 24.5,
+              "y": 31
+            },
+            "E9uk3": {
+              "width": "fill_container",
+              "height": "fill_container",
+              "x": 208,
+              "y": 4
+            },
+            "VFJn2": {
+              "x": 25,
+              "y": 9
+            },
+            "TjYMz": {
+              "x": 24.5,
+              "y": 31
+            },
+            "E6swc": {
+              "width": "fill_container",
+              "height": "fill_container",
+              "x": 276,
+              "y": 4
+            },
+            "DiSDj": {
+              "x": 25,
+              "y": 9
+            },
+            "6KDUy": {
+              "x": 20,
+              "y": 31
             }
           }
         }
@@ -3804,12 +3946,21 @@
           "x": 0,
           "y": 0,
           "descendants": {
+            "UCjo2": {
+              "x": 16,
+              "y": 8
+            },
             "LNHGn": {
-              "iconFontName": "x"
+              "iconFontName": "x",
+              "x": 8,
+              "y": 8
             },
             "qge78": {
               "content": "편지 쓰기",
-              "fontFamily": "Noto Sans KR"
+              "fontFamily": "Noto Sans KR",
+              "width": "fill_container",
+              "x": 56,
+              "y": 15
             },
             "iM4PK": {
               "type": "frame",
@@ -3882,9 +4033,13 @@
                   "name": "weekChip2",
                   "x": 288,
                   "y": 1.5,
+                  "width": "fit_content",
+                  "height": "fit_content",
                   "descendants": {
                     "jm0Fd": {
-                      "content": "24주차"
+                      "content": "24주차",
+                      "x": 12,
+                      "y": 6
                     }
                   }
                 }
@@ -3897,7 +4052,8 @@
               "fill": "$color-on-surface-subtle",
               "content": "2026.03.28",
               "fontFamily": "Noto Sans KR",
-              "fontSize": 13
+              "fontSize": 13,
+              "fontWeight": "normal"
             },
             {
               "id": "ZwmTP",
@@ -3925,7 +4081,9 @@
                 "OmnQ0": {
                   "width": "fill_container",
                   "content": "아기에게 전하고 싶은 이야기를 적어보세요...",
-                  "lineHeight": 2
+                  "lineHeight": 2,
+                  "x": 14,
+                  "y": 14
                 }
               }
             }
@@ -4038,14 +4196,29 @@
           "x": 0,
           "y": 0,
           "descendants": {
+            "UCjo2": {
+              "x": 16,
+              "y": 8
+            },
             "LNHGn": {
-              "iconFontName": "arrow-left"
+              "iconFontName": "arrow-left",
+              "x": 8,
+              "y": 8
             },
             "qge78": {
-              "content": "편지 상세"
+              "content": "편지 상세",
+              "width": "fill_container",
+              "x": 56,
+              "y": 15
+            },
+            "iM4PK": {
+              "x": 334,
+              "y": 8
             },
             "MFVwG": {
-              "iconFontName": "ellipsis-vertical"
+              "iconFontName": "ellipsis-vertical",
+              "x": 8,
+              "y": 8
             }
           }
         },
@@ -4110,9 +4283,13 @@
                       "name": "weekChip",
                       "x": 73,
                       "y": 0,
+                      "width": "fit_content",
+                      "height": "fit_content",
                       "descendants": {
                         "jm0Fd": {
-                          "content": "24주차"
+                          "content": "24주차",
+                          "x": 12,
+                          "y": 6
                         }
                       }
                     }
@@ -4188,15 +4365,85 @@
           "name": "navBar3",
           "x": 0,
           "y": 749,
+          "height": "fit_content",
           "descendants": {
+            "fMyKj": {
+              "width": "fill_container",
+              "x": 21,
+              "y": 12
+            },
+            "zMgTf": {
+              "width": "fill_container",
+              "height": "fill_container",
+              "x": 4,
+              "y": 4
+            },
+            "DEDxD": {
+              "x": 25,
+              "y": 9
+            },
+            "dZTKk": {
+              "x": 29,
+              "y": 31
+            },
+            "Jwm2f": {
+              "width": "fill_container",
+              "height": "fill_container",
+              "x": 72,
+              "y": 4
+            },
+            "94ykc": {
+              "x": 25,
+              "y": 9
+            },
+            "1ieZk": {
+              "x": 24.5,
+              "y": 31
+            },
             "5zEnx": {
-              "fill": "$color-primary"
+              "fill": "$color-primary",
+              "width": "fill_container",
+              "height": "fill_container",
+              "x": 140,
+              "y": 4
             },
             "BfXeC": {
-              "fill": "$color-on-primary"
+              "fill": "$color-on-primary",
+              "x": 25,
+              "y": 9
             },
             "8T7I6": {
-              "fill": "$color-on-primary"
+              "fill": "$color-on-primary",
+              "x": 24.5,
+              "y": 31
+            },
+            "E9uk3": {
+              "width": "fill_container",
+              "height": "fill_container",
+              "x": 208,
+              "y": 4
+            },
+            "VFJn2": {
+              "x": 25,
+              "y": 9
+            },
+            "TjYMz": {
+              "x": 24.5,
+              "y": 31
+            },
+            "E6swc": {
+              "width": "fill_container",
+              "height": "fill_container",
+              "x": 276,
+              "y": 4
+            },
+            "DiSDj": {
+              "x": 25,
+              "y": 9
+            },
+            "6KDUy": {
+              "x": 20,
+              "y": 31
             }
           }
         }
@@ -4353,9 +4600,13 @@
                   "name": "chip4",
                   "x": 73,
                   "y": 0,
+                  "width": "fit_content",
+                  "height": "fit_content",
                   "descendants": {
                     "jm0Fd": {
-                      "content": "24주차"
+                      "content": "24주차",
+                      "x": 12,
+                      "y": 6
                     }
                   }
                 }
@@ -4491,6 +4742,1070 @@
                   "height": 52,
                   "fill": "#FFFFF0",
                   "cornerRadius": 10
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "BHd1F",
+      "x": 4800,
+      "y": 0,
+      "name": "LoadingOverlay",
+      "reusable": true,
+      "width": 390,
+      "height": 844,
+      "fill": "$color-background",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "4jwOk",
+          "x": 0,
+          "y": 0,
+          "name": "overlay",
+          "width": 390,
+          "height": 844,
+          "layout": "vertical",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "qzAEq",
+              "name": "card",
+              "width": 280,
+              "fill": "$color-surface",
+              "cornerRadius": "$radius-lg",
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "$color-shadow-lg",
+                "offset": {
+                  "x": 0,
+                  "y": 8
+                },
+                "blur": 24
+              },
+              "layout": "vertical",
+              "gap": 20,
+              "padding": 32,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "J53sG",
+                  "name": "iconWrap",
+                  "width": 64,
+                  "height": 64,
+                  "fill": "$color-primary-light",
+                  "cornerRadius": 9999,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "CbSow",
+                      "name": "heartIcon",
+                      "width": 28,
+                      "height": 28,
+                      "iconFontName": "favorite",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "fill": "$color-primary"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "JfR03",
+                  "name": "dotsRow",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "ellipse",
+                      "id": "dlJtr",
+                      "name": "dot1",
+                      "fill": "$color-primary",
+                      "width": 12,
+                      "height": 12
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "QKiuG",
+                      "name": "dot2",
+                      "opacity": 0.55,
+                      "fill": "$color-primary",
+                      "width": 12,
+                      "height": 12
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "oTHSf",
+                      "name": "dot3",
+                      "opacity": 0.25,
+                      "fill": "$color-primary",
+                      "width": 12,
+                      "height": 12
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "9qCVV",
+                  "name": "loadingText",
+                  "fill": "$color-on-surface-subtle",
+                  "content": "잠시만 기다려주세요",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "phqwb",
+      "x": 5260,
+      "y": 0,
+      "name": "스켈레톤 로딩",
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": "$color-background",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "W7KLG",
+          "name": "topbar",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "$color-surface",
+          "stroke": {
+            "align": "inside",
+            "thickness": {
+              "bottom": 1
+            },
+            "fill": "$color-outline"
+          },
+          "gap": 8,
+          "padding": [
+            0,
+            16
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "sBQP7",
+              "name": "backBtn",
+              "width": 40,
+              "height": 40,
+              "cornerRadius": 8
+            },
+            {
+              "type": "rectangle",
+              "cornerRadius": 9,
+              "id": "hMUDO",
+              "name": "titlePlaceholder",
+              "fill": "#EDE3DE",
+              "width": 120,
+              "height": 18
+            },
+            {
+              "type": "frame",
+              "id": "jkL98",
+              "name": "spacer",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "Dg2nV",
+              "name": "actionBtn",
+              "width": 40,
+              "height": 40,
+              "cornerRadius": 8
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "78Iwe",
+          "name": "scrollArea",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": 16,
+          "children": [
+            {
+              "type": "frame",
+              "id": "PPX3n",
+              "name": "card1",
+              "width": "fill_container",
+              "fill": "$color-surface",
+              "cornerRadius": 12,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "$color-shadow",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 8
+              },
+              "layout": "vertical",
+              "gap": 10,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "17uSF",
+                  "name": "badgeRow1",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 9999,
+                      "id": "sNKvF",
+                      "name": "weekBadge1",
+                      "fill": "#EDE3DE",
+                      "width": 64,
+                      "height": 23
+                    },
+                    {
+                      "type": "frame",
+                      "id": "OWt4B",
+                      "name": "dateSpacer1",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 6,
+                      "id": "xkTxU",
+                      "name": "dateRect1",
+                      "fill": "#EDE3DE",
+                      "width": 80,
+                      "height": 14
+                    }
+                  ]
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 6,
+                  "id": "YqbZe",
+                  "name": "previewLine1a",
+                  "fill": "#EDE3DE",
+                  "width": "fill_container",
+                  "height": 14
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 6,
+                  "id": "YCR0B",
+                  "name": "previewLine1b",
+                  "fill": "#EDE3DE",
+                  "width": "fill_container",
+                  "height": 14
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 6,
+                  "id": "Z8QaK",
+                  "name": "previewLine1c",
+                  "fill": "#EDE3DE",
+                  "width": 220,
+                  "height": 14
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 6,
+                  "id": "umwzD",
+                  "name": "linkLine1",
+                  "fill": "#F5ECEA",
+                  "width": 60,
+                  "height": 12
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "PYk8t",
+              "name": "card2",
+              "width": "fill_container",
+              "fill": "$color-surface",
+              "cornerRadius": 12,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "$color-shadow",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 8
+              },
+              "layout": "vertical",
+              "gap": 10,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "gmw6s",
+                  "name": "badgeRow2",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 9999,
+                      "id": "VXzD6",
+                      "name": "weekBadge2",
+                      "fill": "#EDE3DE",
+                      "width": 56,
+                      "height": 23
+                    },
+                    {
+                      "type": "frame",
+                      "id": "xr0RJ",
+                      "name": "dateSpacer2",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 6,
+                      "id": "j8Cxc",
+                      "name": "dateRect2",
+                      "fill": "#EDE3DE",
+                      "width": 80,
+                      "height": 14
+                    }
+                  ]
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 6,
+                  "id": "nNNSG",
+                  "name": "previewLine2a",
+                  "fill": "#EDE3DE",
+                  "width": "fill_container",
+                  "height": 14
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 6,
+                  "id": "wmTIU",
+                  "name": "previewLine2b",
+                  "fill": "#EDE3DE",
+                  "width": "fill_container",
+                  "height": 14
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 6,
+                  "id": "euwzy",
+                  "name": "previewLine2c",
+                  "fill": "#EDE3DE",
+                  "width": 200,
+                  "height": 14
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 6,
+                  "id": "JE621",
+                  "name": "linkLine2",
+                  "fill": "#F5ECEA",
+                  "width": 60,
+                  "height": 12
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "dO9w1",
+              "name": "card3",
+              "width": "fill_container",
+              "fill": "$color-surface",
+              "cornerRadius": 12,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "$color-shadow",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 8
+              },
+              "layout": "vertical",
+              "gap": 10,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "7tAts",
+                  "name": "badgeRow3",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 9999,
+                      "id": "fvF1O",
+                      "name": "weekBadge3",
+                      "fill": "#EDE3DE",
+                      "width": 72,
+                      "height": 23
+                    },
+                    {
+                      "type": "frame",
+                      "id": "NNIXb",
+                      "name": "dateSpacer3",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 6,
+                      "id": "R1Z1g",
+                      "name": "dateRect3",
+                      "fill": "#EDE3DE",
+                      "width": 80,
+                      "height": 14
+                    }
+                  ]
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 6,
+                  "id": "Fyr7t",
+                  "name": "previewLine3a",
+                  "fill": "#EDE3DE",
+                  "width": "fill_container",
+                  "height": 14
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 6,
+                  "id": "ptnd6",
+                  "name": "previewLine3b",
+                  "fill": "#EDE3DE",
+                  "width": "fill_container",
+                  "height": 14
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 6,
+                  "id": "Vxkyn",
+                  "name": "previewLine3c",
+                  "fill": "#EDE3DE",
+                  "width": 240,
+                  "height": 14
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 6,
+                  "id": "feTtP",
+                  "name": "linkLine3",
+                  "fill": "#F5ECEA",
+                  "width": 60,
+                  "height": 12
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "CXQIh",
+              "name": "card4",
+              "width": "fill_container",
+              "fill": "$color-surface",
+              "cornerRadius": 12,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "$color-shadow",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 8
+              },
+              "layout": "vertical",
+              "gap": 10,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "EIgN1",
+                  "name": "badgeRow4",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 9999,
+                      "id": "5YVNX",
+                      "name": "weekBadge4",
+                      "fill": "#EDE3DE",
+                      "width": 60,
+                      "height": 23
+                    },
+                    {
+                      "type": "frame",
+                      "id": "bGydw",
+                      "name": "dateSpacer4",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 6,
+                      "id": "fhpaj",
+                      "name": "dateRect4",
+                      "fill": "#EDE3DE",
+                      "width": 80,
+                      "height": 14
+                    }
+                  ]
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 6,
+                  "id": "DjRpC",
+                  "name": "previewLine4a",
+                  "fill": "#EDE3DE",
+                  "width": "fill_container",
+                  "height": 14
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 6,
+                  "id": "c4EZR",
+                  "name": "previewLine4b",
+                  "fill": "#EDE3DE",
+                  "width": "fill_container",
+                  "height": 14
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 6,
+                  "id": "OaLwn",
+                  "name": "previewLine4c",
+                  "fill": "#EDE3DE",
+                  "width": 180,
+                  "height": 14
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 6,
+                  "id": "kDNrg",
+                  "name": "linkLine4",
+                  "fill": "#F5ECEA",
+                  "width": 60,
+                  "height": 12
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "ZxPJ1",
+      "x": 5750,
+      "y": 0,
+      "name": "LoadingButton 컴포넌트",
+      "width": 400,
+      "fill": "$color-background",
+      "layout": "vertical",
+      "gap": 24,
+      "padding": 32,
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "text",
+          "id": "CIHqN",
+          "name": "sectionLabel",
+          "fill": "$color-on-surface-subtle",
+          "content": "LoadingButton",
+          "fontFamily": "Noto Sans KR",
+          "fontSize": 13,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "frame",
+          "id": "csTgU",
+          "name": "LoadingButton",
+          "reusable": true,
+          "opacity": 0.88,
+          "width": 280,
+          "height": 52,
+          "fill": "$color-primary",
+          "cornerRadius": 8,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "$color-shadow",
+            "offset": {
+              "x": 0,
+              "y": 2
+            },
+            "blur": 8
+          },
+          "gap": 10,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "XgkEi",
+              "name": "spinner",
+              "width": 20,
+              "height": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "2UDgn",
+                  "x": 0,
+                  "y": 0,
+                  "name": "spinnerTrack",
+                  "fill": "#FFFFFF26",
+                  "width": 20,
+                  "height": 20
+                },
+                {
+                  "type": "ellipse",
+                  "id": "9uYJH",
+                  "x": 0,
+                  "y": 0,
+                  "name": "spinnerArc",
+                  "sweepAngle": 270,
+                  "fill": "#00000000",
+                  "width": 20,
+                  "height": 20,
+                  "stroke": {
+                    "thickness": 2.5,
+                    "cap": "round",
+                    "fill": "#FFFFFF"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "2FkZs",
+              "name": "btnLabel",
+              "fill": "$color-on-primary",
+              "content": "저장 중...",
+              "fontFamily": "Noto Sans KR",
+              "fontSize": 16,
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "1xQLR",
+          "name": "kfLabel",
+          "fill": "$color-on-surface-subtle",
+          "content": "스피너 애니메이션 키프레임",
+          "fontFamily": "Noto Sans KR",
+          "fontSize": 11,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "frame",
+          "id": "6uUYv",
+          "name": "kfRow",
+          "gap": 16,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "TGiVF",
+              "name": "kf1",
+              "layout": "vertical",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "G0FN4",
+                  "name": "kf1bg",
+                  "fill": "$color-primary-light",
+                  "width": 32,
+                  "height": 32
+                },
+                {
+                  "type": "ellipse",
+                  "id": "V5QO3",
+                  "layoutPosition": "absolute",
+                  "x": 4,
+                  "y": 4,
+                  "name": "kf1arc",
+                  "sweepAngle": 270,
+                  "fill": "#00000000",
+                  "width": 24,
+                  "height": 24,
+                  "stroke": {
+                    "thickness": 2.5,
+                    "cap": "round",
+                    "fill": "$color-primary"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "M3zxH",
+                  "name": "kf1t",
+                  "fill": "$color-on-surface-subtle",
+                  "content": "0°",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 10,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "uvBDD",
+              "name": "kf2",
+              "layout": "vertical",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "XkqV0",
+                  "name": "kf2bg",
+                  "fill": "$color-primary-light",
+                  "width": 32,
+                  "height": 32
+                },
+                {
+                  "type": "ellipse",
+                  "id": "lKa0h",
+                  "layoutPosition": "absolute",
+                  "x": 4,
+                  "y": 4,
+                  "name": "kf2arc",
+                  "startAngle": 90,
+                  "sweepAngle": 270,
+                  "fill": "#00000000",
+                  "width": 24,
+                  "height": 24,
+                  "stroke": {
+                    "thickness": 2.5,
+                    "cap": "round",
+                    "fill": "$color-primary"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "RppWQ",
+                  "name": "kf2t",
+                  "fill": "$color-on-surface-subtle",
+                  "content": "90°",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 10,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "zpQD2",
+              "name": "kf3",
+              "layout": "vertical",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "sv4Vk",
+                  "name": "kf3bg",
+                  "fill": "$color-primary-light",
+                  "width": 32,
+                  "height": 32
+                },
+                {
+                  "type": "ellipse",
+                  "id": "o5awK",
+                  "layoutPosition": "absolute",
+                  "x": 4,
+                  "y": 4,
+                  "name": "kf3arc",
+                  "startAngle": 180,
+                  "sweepAngle": 270,
+                  "fill": "#00000000",
+                  "width": 24,
+                  "height": 24,
+                  "stroke": {
+                    "thickness": 2.5,
+                    "cap": "round",
+                    "fill": "$color-primary"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "nvg6N",
+                  "name": "kf3t",
+                  "fill": "$color-on-surface-subtle",
+                  "content": "180°",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 10,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "WSY52",
+              "name": "kf4",
+              "layout": "vertical",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "3R3Q3",
+                  "name": "kf4bg",
+                  "fill": "$color-primary-light",
+                  "width": 32,
+                  "height": 32
+                },
+                {
+                  "type": "ellipse",
+                  "id": "y3XTB",
+                  "layoutPosition": "absolute",
+                  "x": 4,
+                  "y": 4,
+                  "name": "kf4arc",
+                  "startAngle": 270,
+                  "sweepAngle": 270,
+                  "fill": "#00000000",
+                  "width": 24,
+                  "height": 24,
+                  "stroke": {
+                    "thickness": 2.5,
+                    "cap": "round",
+                    "fill": "$color-primary"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "ccfgM",
+                  "name": "kf4t",
+                  "fill": "$color-on-surface-subtle",
+                  "content": "270°",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 10,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "1bXLJ",
+      "x": 6200,
+      "y": 0,
+      "name": "LoadingButton 애니메이션 상태",
+      "width": 640,
+      "height": 320,
+      "fill": "#FFFAF5",
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 32,
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "text",
+          "id": "kSK2L",
+          "name": "titleTxt",
+          "fill": "#2D2020",
+          "content": "LoadingButton 애니메이션 키프레임",
+          "fontFamily": "Noto Sans KR",
+          "fontSize": 14,
+          "fontWeight": "600"
+        },
+        {
+          "type": "frame",
+          "id": "KS7dS",
+          "name": "btnsRow",
+          "gap": 24,
+          "children": [
+            {
+              "type": "frame",
+              "id": "IQQgw",
+              "name": "col1",
+              "layout": "vertical",
+              "gap": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "fHXQd",
+                  "name": "btn1",
+                  "width": 160,
+                  "height": 52,
+                  "fill": "#FF8FAB",
+                  "cornerRadius": 8,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "dq9vX",
+                      "name": "t1",
+                      "fill": "#FFFFFF",
+                      "content": "저장하기",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "mdpXB",
+                  "name": "lbl1",
+                  "fill": "#9E8A8A",
+                  "content": "Normal",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "UxKns",
+              "name": "col2",
+              "layout": "vertical",
+              "gap": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "aWEl4",
+                  "name": "btn2",
+                  "opacity": 0.65,
+                  "width": 160,
+                  "height": 52,
+                  "fill": "#FF8FAB",
+                  "cornerRadius": 8,
+                  "gap": 8,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "RRgZ6",
+                      "name": "icon2",
+                      "width": 20,
+                      "height": 20,
+                      "iconFontName": "autorenew",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "fill": "#FFFFFF"
+                    },
+                    {
+                      "type": "text",
+                      "id": "sfwPE",
+                      "name": "t2",
+                      "fill": "#FFFFFF",
+                      "content": "저장 중...",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "G13gE",
+                  "name": "lbl2",
+                  "fill": "#9E8A8A",
+                  "content": "Loading",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Y0Lla",
+              "name": "col3",
+              "layout": "vertical",
+              "gap": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "xRjFj",
+                  "name": "btn3",
+                  "width": 160,
+                  "height": 52,
+                  "fill": "#E5607A",
+                  "cornerRadius": 8,
+                  "gap": 8,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "lo65u",
+                      "name": "icon3",
+                      "width": 20,
+                      "height": 20,
+                      "iconFontName": "check",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "fill": "#FFFFFF"
+                    },
+                    {
+                      "type": "text",
+                      "id": "iZRRS",
+                      "name": "t3",
+                      "fill": "#FFFFFF",
+                      "content": "완료!",
+                      "fontFamily": "Noto Sans KR",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "EgK6n",
+                  "name": "lbl3",
+                  "fill": "#9E8A8A",
+                  "content": "Success",
+                  "fontFamily": "Noto Sans KR",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 }
               ]
             }
