@@ -14,4 +14,12 @@ sealed class Screen {
     }
     @Serializable data object Schedule : Screen()
     @Serializable data object More : Screen()
+    @Serializable sealed class Setup : Screen() {
+        @Serializable data object BabyInfo : Setup()
+        @Serializable data class PregnancyInfo(
+            val nickname: String,
+            val gender: String,
+            val isBorn: Boolean
+        ) : Setup()
+    }
 }
