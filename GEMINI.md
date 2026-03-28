@@ -12,27 +12,37 @@
 - **주요 기능:** 산모 건강 기록, 태아 성장 기록, 진료 일정 관리, 출산 준비 체크리스트 등.
 
 ## 프로젝트 구조 (Directory Structure)
-- `cmp/`: Compose Multiplatform 기반의 메인 앱 소스 코드. (추후 `commonMain`, `androidMain`, `iosMain` 등이 위치할 곳)
+- `cmp/`: Compose Multiplatform 기반의 메인 앱 소스 코드.
+    - `composeApp/`: Android/iOS 공통 UI 및 플랫폼별 엔트리 포인트. (`commonMain`, `androidMain`, `iosMain`)
+    - `core/`: 공통 기능 (data, database, model, ui).
+    - `feature/`: 각 기능별 모듈 (home, letter).
 - `design/`: UI/UX 디자인 에셋, 기획서, 가이드라인.
 - `docs/`: 프로젝트 일반 문서 및 추가적인 상세 사양서.
 
 ## 빌드 및 실행 (Building and Running)
-- **TODO:** CMP 프로젝트 초기화 후 Gradle 명령어(`./gradlew ...`)를 여기에 기재하세요.
-- 안드로이드 실행: `./gradlew :cmp:composeApp:run` (예상)
-- iOS 실행: Xcode 연동 및 Gradle 태스크 필요.
+- 프로젝트 빌드: `./gradlew :cmp:composeApp:assembleDebug`
+- 안드로이드 앱 실행: `./gradlew :cmp:composeApp:installDebug`
+- iOS 앱 실행: Xcode에서 `cmp/iosApp/iosApp.xcworkspace`를 열어 실행하거나 Gradle 스크립트 활용.
+- 테스트 실행: `./gradlew :cmp:composeApp:test`
 
 ## 개발 가이드라인 (Development Conventions)
 - **언어:** 최신 Kotlin 문법 및 코루틴(Coroutines) 사용.
-- **아키텍처:** CMP 권장 패턴(MVI 또는 MVVM) 지향.
-- **UI:** Compose Multiplatform 전용 컴포넌트 우선 사용. 플랫폼별(Android/iOS) 특화 코드는 `expect`/`actual`을 통해 분리.
+- **아키텍처:** MVI (Model-View-Intent) 패턴 준수. (StateFlow, Channel 활용)
+- **UI:** Compose Multiplatform 전용 컴포넌트 우선 사용. `PumTheme`을 통한 디자인 시스템 적용.
 - **문서화:** 모든 주요 기능 설계는 `docs/` 또는 루트의 `.md` 파일에 기록.
 
 ## 필수 요구사항 (Mandatory Requirements)
 
-1. **코드 수정 후 반드시 빌드 검증:** 코드를 수정한 뒤 답변을 주기 전에 반드시 `./gradlew assembleDebug`를 실행하여 빌드가 성공하는지 확인할 것.
+1. **코드 수정 후 반드시 빌드 검증:** 코드를 수정한 뒤 답변을 주기 전에 반드시 `./gradlew :cmp:composeApp:assembleDebug`를 실행하여 빌드가 성공하는지 확인할 것.
 2. **Compose + MVI 아키텍처:** UI는 Jetpack Compose, 상태 관리는 MVI(Model-View-Intent) 패턴을 따를 것. 각 화면은 Intent(사용자 액션) → Reducer/ViewModel → State → Composable UI 흐름을 유지한다.
-3. **멀티모듈 프로젝트:** 기능별/레이어별로 Gradle 모듈을 분리하여 진행할 것. (예: `:app`, `:core:ui`, `:core:data`, `:feature:*` 등)
-4. **모듈화 + 캡슐화 + 객체지향 원칙:** 모듈 간 의존성을 최소화하고, 내부 구현은 `internal`로 캡슐화하며, SOLID 원칙을 준수할 것.
+3. **멀티모듈 프로젝트:** `:composeApp`, `:core:*`, `:feature:*` 구조 유지.
+4. **모듈화 + 캡슐화 + 객체지향 원칙:** 캡슐화 및 SOLID 원칙 준수.
+
+## 구현 현황 (Current Status)
+- **[완료] 디자인 시스템:** `core:ui` 모듈에 `PumTheme` 및 기본 컴포넌트 구현 완료.
+- **[완료] 아기에게 보내는 편지:** `feature:letter` 모듈 구현 완료. 로컬 DB(SQLDelight) 연동 및 MVI 패턴 적용.
+- **[MVP 완료] 홈 대시보드:** `feature:home` 모듈 구현 완료. 주차 및 디데이 요약 정보 표시.
+- **[준비 중] 건강 기록:** `:feature:record` 모듈 구조 정의 및 구현 예정. (현재 `settings.gradle.kts`에만 포함됨)
 
 ## Gemini CLI 지침
 - 새로운 기능을 추가할 때는 `cmp/` 폴더 내의 KMP 구조를 따르세요.
