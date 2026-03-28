@@ -1,0 +1,13 @@
+# OS X
+.DS_Store
+
+# Android/Gradle/CMP 관련 기본 제외 설정
+.gradle/
+build/
+local.properties
+*.iml
+
+# IDE
+.idea/
+*.swp
+*.bak
