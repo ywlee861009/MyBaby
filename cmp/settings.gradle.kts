@@ -32,3 +32,6 @@ dependencyResolutionManagement {
 
 include(":composeApp")
 include(":core:ui")
+include(":core:model")
+include(":feature:home")
+include(":feature:record")

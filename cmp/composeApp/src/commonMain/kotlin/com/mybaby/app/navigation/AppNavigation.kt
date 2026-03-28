@@ -37,6 +37,10 @@ val bottomNavItems = listOf(
     BottomNavItem("더보기", Icons.Rounded.Menu, Screen.More),
 )
 
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mybaby.app.feature.home.HomeScreen
+import com.mybaby.app.feature.home.HomeViewModel
+
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
@@ -71,7 +75,13 @@ fun AppNavigation() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable<Screen.Home> {
-                PlaceholderScreen("홈")
+                val homeViewModel: HomeViewModel = viewModel { HomeViewModel() }
+                HomeScreen(
+                    viewModel = homeViewModel,
+                    onNavigateToRecord = {
+                        navController.navigate(Screen.HealthRecord)
+                    }
+                )
             }
             composable<Screen.HealthRecord> {
                 PlaceholderScreen("건강 기록")
