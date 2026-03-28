@@ -71,8 +71,8 @@ fun SetupBabyInfoScreen(
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        // 닉네임 입력
-        SectionLabel("아기 닉네임")
+        // 태명 입력
+        SectionLabel("아기 태명")
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = state.nickname,
