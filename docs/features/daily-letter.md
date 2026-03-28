@@ -36,5 +36,11 @@ data class Letter(
 )
 ```
 
-## 6. 제약 사항 (Constraints)
-- 하루에 '새로운 편지'는 단 하나만 존재할 수 있다. (날짜 기준 유효성 검사 필요)
+## 7. 현재 구현 상태 (Implementation Status)
+- **[완료] 데이터 모델 및 DB:** `Letter.kt` 모델과 SQLDelight(`Letter.sq`) 테이블 정의 완료.
+- **[완료] 레포지토리:** `LetterRepository` 인터페이스 및 `LetterRepositoryImpl` 구현 완료. (SQLDelight 연동 및 하루 1회 작성 제한 로직 포함)
+- **[완료] UI (MVI):**
+    - `LetterContract.kt`: State와 Intent 정의.
+    - `LetterViewModel.kt`: MVI 패턴 기반 상태 관리 및 비즈니스 로직.
+    - `LetterScreen.kt`: Jetpack Compose 기반 UI. 현재 단일 화면 내에서 리스트와 작성/수정 모드를 토글하는 방식으로 구현됨 (`isWritingMode`).
+- **[진행 중] 디자인 고도화:** `SCREEN_FLOWS.md`의 감성적인 편지지 배경 테마 및 상세 화면 분리 등은 고도화 단계에서 진행 예정.
