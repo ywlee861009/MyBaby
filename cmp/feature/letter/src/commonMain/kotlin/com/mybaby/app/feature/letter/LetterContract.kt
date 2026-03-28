@@ -2,27 +2,74 @@ package com.mybaby.app.feature.letter
 
 import com.mybaby.app.core.model.Letter
 
-/**
- * 편지 화면의 상태
- */
-data class LetterState(
+// ─── 공통 UiEvent ─────────────────────────────────────────────────────────────
+
+sealed interface LetterUiEvent {
+    data class ShowSnackbar(val message: String) : LetterUiEvent
+    data object NavigateBack : LetterUiEvent
+    data class NavigateToDetail(val id: String) : LetterUiEvent
+    data class NavigateToEdit(val id: String) : LetterUiEvent
+}
+
+// ─── 편지 목록 ─────────────────────────────────────────────────────────────────
+
+data class LetterListState(
     val isLoading: Boolean = false,
     val letters: List<Letter> = emptyList(),
-    val canWriteToday: Boolean = true, // 오늘 편지를 작성할 수 있는지 여부
-    val isWritingMode: Boolean = false, // 작성 모드인지 목록 모드인지 여부
-    val currentLetterId: String? = null, // 작성/수정 중인 편지 ID
-    val draftContent: String = "", // 작성 중인 내용
+    val canWriteToday: Boolean = true,
     val errorMessage: String? = null
 )
 
-/**
- * 사용자 액션(Intent)
- */
-sealed interface LetterIntent {
-    object LoadLetters : LetterIntent
-    object OpenWriteMode : LetterIntent
-    object CloseWriteMode : LetterIntent
-    data class UpdateDraftContent(val content: String) : LetterIntent
-    object SaveLetter : LetterIntent
-    data class EditLetter(val letter: Letter) : LetterIntent
+sealed interface LetterListIntent {
+    data object LoadLetters : LetterListIntent
+    data class DeleteLetter(val id: String) : LetterListIntent
+}
+
+// ─── 편지 작성 ─────────────────────────────────────────────────────────────────
+
+data class LetterWriteState(
+    val draftContent: String = "",
+    val selectedTheme: String = "#FFF8F0",
+    val weekNumber: Int = 24,
+    val isSaving: Boolean = false
+)
+
+sealed interface LetterWriteIntent {
+    data class UpdateContent(val content: String) : LetterWriteIntent
+    data class SelectTheme(val color: String) : LetterWriteIntent
+    data object Save : LetterWriteIntent
+}
+
+// ─── 편지 상세 ─────────────────────────────────────────────────────────────────
+
+data class LetterDetailState(
+    val letter: Letter? = null,
+    val isLoading: Boolean = true,
+    val showMenu: Boolean = false,
+    val showDeleteDialog: Boolean = false
+)
+
+sealed interface LetterDetailIntent {
+    data object OpenMenu : LetterDetailIntent
+    data object CloseMenu : LetterDetailIntent
+    data object ShowDeleteDialog : LetterDetailIntent
+    data object DismissDeleteDialog : LetterDetailIntent
+    data object ConfirmDelete : LetterDetailIntent
+    data object NavigateEdit : LetterDetailIntent
+}
+
+// ─── 편지 편집 ─────────────────────────────────────────────────────────────────
+
+data class LetterEditState(
+    val letter: Letter? = null,
+    val draftContent: String = "",
+    val selectedTheme: String = "#FFF8F0",
+    val isLoading: Boolean = true,
+    val isSaving: Boolean = false
+)
+
+sealed interface LetterEditIntent {
+    data class UpdateContent(val content: String) : LetterEditIntent
+    data class SelectTheme(val color: String) : LetterEditIntent
+    data object Save : LetterEditIntent
 }

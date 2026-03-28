@@ -3,15 +3,20 @@ CREATE TABLE LetterEntity (
     content TEXT NOT NULL,
     createdAt INTEGER NOT NULL,
     updatedAt INTEGER NOT NULL,
+    weekNumber INTEGER NOT NULL DEFAULT 0,
+    themeColor TEXT NOT NULL DEFAULT '#FFF8F0',
     syncStatus TEXT NOT NULL
 );
 
 selectAll:
 SELECT * FROM LetterEntity ORDER BY createdAt DESC;
 
+selectById:
+SELECT * FROM LetterEntity WHERE id = ? LIMIT 1;
+
 insertLetter:
-INSERT OR REPLACE INTO LetterEntity(id, content, createdAt, updatedAt, syncStatus)
-VALUES (?, ?, ?, ?, ?);
+INSERT OR REPLACE INTO LetterEntity(id, content, createdAt, updatedAt, weekNumber, themeColor, syncStatus)
+VALUES (?, ?, ?, ?, ?, ?, ?);
 
 deleteLetter:
 DELETE FROM LetterEntity WHERE id = ?;

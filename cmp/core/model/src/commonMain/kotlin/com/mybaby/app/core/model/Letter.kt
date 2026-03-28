@@ -11,6 +11,8 @@ data class Letter(
     val content: String,
     val createdAt: Long, // Epoch timestamp (생성일)
     val updatedAt: Long, // Epoch timestamp (수정일)
+    val weekNumber: Int = 0, // 작성 시점 임신 주차
+    val themeColor: String = "#FFF8F0", // 편지지 배경색
     val syncStatus: SyncStatus = SyncStatus.PENDING
 )
 

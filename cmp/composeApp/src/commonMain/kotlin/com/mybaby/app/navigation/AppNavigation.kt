@@ -1,10 +1,19 @@
 package com.mybaby.app.navigation
 
-import androidx.compose.foundation.layout.padding
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DateRange
@@ -14,20 +23,41 @@ import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mybaby.app.core.data.LetterRepository
 import com.mybaby.app.feature.home.HomeScreen
 import com.mybaby.app.feature.home.HomeViewModel
-import com.mybaby.app.feature.letter.LetterScreen
-import com.mybaby.app.feature.letter.LetterViewModel
+import com.mybaby.app.feature.letter.LetterListScreen
+import com.mybaby.app.feature.letter.LetterWriteScreen
+import com.mybaby.app.feature.letter.LetterDetailScreen
+import com.mybaby.app.feature.letter.LetterEditScreen
+import com.mybaby.app.feature.letter.LetterListViewModel
+import com.mybaby.app.feature.letter.LetterWriteViewModel
+import com.mybaby.app.feature.letter.LetterDetailViewModel
+import com.mybaby.app.feature.letter.LetterEditViewModel
+import com.mybaby.app.ui.theme.PumTheme
+import kotlinx.coroutines.launch
+
+private const val ANIM_DURATION = 280
 
 data class BottomNavItem(
     val label: String,
@@ -38,45 +68,128 @@ data class BottomNavItem(
 val bottomNavItems = listOf(
     BottomNavItem("홈", Icons.Rounded.Home, Screen.Home),
     BottomNavItem("기록", Icons.Rounded.FavoriteBorder, Screen.HealthRecord),
-    BottomNavItem("편지", Icons.Rounded.Edit, Screen.Letter),
+    BottomNavItem("편지", Icons.Rounded.Edit, Screen.Letter.List),
     BottomNavItem("일정", Icons.Rounded.DateRange, Screen.Schedule),
     BottomNavItem("더보기", Icons.Rounded.Menu, Screen.More),
 )
 
+/** 최상위 탭 인덱스 반환. 탭이 아닌 화면(sub-screen)은 null */
+private fun NavBackStackEntry.tabIndex(): Int? = when {
+    destination.hasRoute(Screen.Home::class) -> 0
+    destination.hasRoute(Screen.HealthRecord::class) -> 1
+    destination.hasRoute(Screen.Letter.List::class) -> 2
+    destination.hasRoute(Screen.Schedule::class) -> 3
+    destination.hasRoute(Screen.More::class) -> 4
+    else -> null
+}
+
+private fun NavDestination?.isLetterTab(): Boolean =
+    this?.hasRoute(Screen.Letter.List::class) == true ||
+            this?.hasRoute(Screen.Letter.Detail::class) == true
+
 @Composable
 fun AppNavigation(
-    letterRepository: LetterRepository
+    letterRepository: LetterRepository,
+    onExit: () -> Unit = {}
 ) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+
+    val showBottomBar = currentDestination?.hasRoute(Screen.Letter.Write::class) != true &&
+            currentDestination?.hasRoute(Screen.Letter.Edit::class) != true
+
+    // 최상위 탭에 있을 때만 백프레스 인터셉트
+    val isOnTopLevelTab = currentDestination?.let {
+        it.hasRoute(Screen.Home::class) ||
+                it.hasRoute(Screen.HealthRecord::class) ||
+                it.hasRoute(Screen.Letter.List::class) ||
+                it.hasRoute(Screen.Schedule::class) ||
+                it.hasRoute(Screen.More::class)
+    } == true
+
+    ExitOnDoubleBackPress(
+        enabled = isOnTopLevelTab,
+        onShowWarning = {
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar("한 번 더 누르면 종료됩니다")
+            }
+        },
+        onExit = onExit
+    )
+
     Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState) { data ->
+                Snackbar(
+                    snackbarData = data,
+                    containerColor = Color(0xFF2D2020),
+                    contentColor = Color.White,
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier.navigationBarsPadding()
+                )
+            }
+        },
         bottomBar = {
-            NavigationBar {
-                bottomNavItems.forEach { item ->
-                    NavigationBarItem(
-                        icon = { Icon(item.icon, contentDescription = item.label) },
-                        label = { Text(item.label) },
-                        selected = currentDestination?.hasRoute(item.screen::class) == true,
-                        onClick = {
-                            navController.navigate(item.screen) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
+            if (showBottomBar) {
+                PumBottomNavBar(
+                    items = bottomNavItems,
+                    currentDestination = currentDestination,
+                    onItemClick = { item ->
+                        navController.navigate(item.screen) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
                             }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                    )
-                }
+                    }
+                )
             }
         }
     ) { innerPadding ->
         NavHost(
             navController = navController,
             startDestination = Screen.Home,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier
+                .padding(innerPadding)
+                .statusBarsPadding(),
+            enterTransition = {
+                val from = initialState.tabIndex()
+                val to = targetState.tabIndex()
+                when {
+                    from != null && to != null ->
+                        // 탭 전환: 인덱스 기준 방향 결정
+                        if (to > from) slideInHorizontally(tween(ANIM_DURATION)) { it }
+                        else slideInHorizontally(tween(ANIM_DURATION)) { -it }
+                    else ->
+                        // 푸시 전환: 우측에서 진입
+                        slideInHorizontally(tween(ANIM_DURATION)) { it } + fadeIn(tween(ANIM_DURATION))
+                }
+            },
+            exitTransition = {
+                val from = initialState.tabIndex()
+                val to = targetState.tabIndex()
+                when {
+                    from != null && to != null ->
+                        if (to > from) slideOutHorizontally(tween(ANIM_DURATION)) { -it }
+                        else slideOutHorizontally(tween(ANIM_DURATION)) { it }
+                    else ->
+                        slideOutHorizontally(tween(ANIM_DURATION)) { -it } + fadeOut(tween(ANIM_DURATION))
+                }
+            },
+            popEnterTransition = {
+                // 팝 복귀: 왼쪽에서 진입
+                slideInHorizontally(tween(ANIM_DURATION)) { -it } + fadeIn(tween(ANIM_DURATION))
+            },
+            popExitTransition = {
+                // 팝 나가기: 오른쪽으로 퇴장
+                slideOutHorizontally(tween(ANIM_DURATION)) { it } + fadeOut(tween(ANIM_DURATION))
+            }
         ) {
             composable<Screen.Home> {
                 val homeViewModel: HomeViewModel = viewModel { HomeViewModel() }
@@ -90,9 +203,43 @@ fun AppNavigation(
             composable<Screen.HealthRecord> {
                 PlaceholderScreen("건강 기록")
             }
-            composable<Screen.Letter> {
-                val letterViewModel: LetterViewModel = viewModel { LetterViewModel(letterRepository) }
-                LetterScreen(viewModel = letterViewModel)
+            composable<Screen.Letter.List> {
+                val vm: LetterListViewModel = viewModel { LetterListViewModel(letterRepository) }
+                LetterListScreen(
+                    viewModel = vm,
+                    onNavigateToWrite = { navController.navigate(Screen.Letter.Write) },
+                    onNavigateToDetail = { id -> navController.navigate(Screen.Letter.Detail(id)) }
+                )
+            }
+            composable<Screen.Letter.Write> {
+                val vm: LetterWriteViewModel = viewModel { LetterWriteViewModel(letterRepository) }
+                LetterWriteScreen(
+                    viewModel = vm,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable<Screen.Letter.Detail> { backStackEntry ->
+                val route = backStackEntry.toRoute<Screen.Letter.Detail>()
+                val vm: LetterDetailViewModel = viewModel(key = route.id) {
+                    LetterDetailViewModel(letterRepository, route.id)
+                }
+                LetterDetailScreen(
+                    viewModel = vm,
+                    onNavigateBack = { navController.popBackStack() },
+                    onNavigateToEdit = { id ->
+                        navController.navigate(Screen.Letter.Edit(id))
+                    }
+                )
+            }
+            composable<Screen.Letter.Edit> { backStackEntry ->
+                val route = backStackEntry.toRoute<Screen.Letter.Edit>()
+                val vm: LetterEditViewModel = viewModel(key = route.id) {
+                    LetterEditViewModel(letterRepository, route.id)
+                }
+                LetterEditScreen(
+                    viewModel = vm,
+                    onNavigateBack = { navController.popBackStack() }
+                )
             }
             composable<Screen.Schedule> {
                 PlaceholderScreen("진료 일정")
@@ -100,6 +247,87 @@ fun AppNavigation(
             composable<Screen.More> {
                 PlaceholderScreen("더보기")
             }
+        }
+    }
+}
+
+@Composable
+private fun PumBottomNavBar(
+    items: List<BottomNavItem>,
+    currentDestination: NavDestination?,
+    onItemClick: (BottomNavItem) -> Unit
+) {
+    val colors = PumTheme.colors
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(colors.surface)
+            .navigationBarsPadding()
+            .padding(start = 21.dp, end = 21.dp, top = 12.dp, bottom = 12.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(62.dp)
+                .clip(RoundedCornerShape(36.dp))
+                .background(colors.surface)
+                .padding(4.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            items.forEach { item ->
+                val isSelected = when (item.screen) {
+                    is Screen.Letter.List -> currentDestination.isLetterTab()
+                    else -> currentDestination?.hasRoute(item.screen::class) == true
+                }
+
+                PumNavItem(
+                    item = item,
+                    isSelected = isSelected,
+                    onClick = { onItemClick(item) },
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun PumNavItem(
+    item: BottomNavItem,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val colors = PumTheme.colors
+    val contentColor = if (isSelected) colors.onPrimary else colors.onSurfaceSubtle
+
+    Box(
+        modifier = modifier
+            .fillMaxHeight()
+            .clip(RoundedCornerShape(32.dp))
+            .background(if (isSelected) colors.primary else Color.Transparent)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                imageVector = item.icon,
+                contentDescription = item.label,
+                tint = contentColor,
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(
+                text = item.label,
+                color = contentColor,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Medium
+            )
         }
     }
 }

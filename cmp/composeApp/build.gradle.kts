@@ -33,6 +33,7 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":feature:home"))
             implementation(project(":feature:letter"))
+            implementation(project(":core:ui"))
             implementation(project(":core:database"))
             implementation(project(":core:data"))
             implementation(compose.runtime)

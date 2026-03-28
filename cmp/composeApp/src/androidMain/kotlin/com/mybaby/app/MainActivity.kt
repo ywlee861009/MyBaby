@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
                 val database = PumDatabase(driver)
                 LetterRepositoryImpl(database)
             }
-            App(letterRepository = repository)
+            App(letterRepository = repository, onExit = { finish() })
         }
     }
 }

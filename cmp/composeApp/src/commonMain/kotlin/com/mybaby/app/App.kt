@@ -7,9 +7,10 @@ import com.mybaby.app.ui.theme.MyBabyTheme
 
 @Composable
 fun App(
-    letterRepository: LetterRepository
+    letterRepository: LetterRepository,
+    onExit: () -> Unit = {}
 ) {
     MyBabyTheme {
-        AppNavigation(letterRepository = letterRepository)
+        AppNavigation(letterRepository = letterRepository, onExit = onExit)
     }
 }

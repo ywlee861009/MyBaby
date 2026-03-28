@@ -2,6 +2,7 @@ package com.mybaby.app.core.data
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
+import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.mybaby.app.core.model.Letter
 import com.mybaby.app.core.model.SyncStatus
 import com.mybaby.app.db.PumDatabase
@@ -17,15 +18,13 @@ class LetterRepositoryImpl(
 
     override fun getAllLetters(): Flow<List<Letter>> {
         return queries.selectAll().asFlow().mapToList(Dispatchers.Default).map { entities ->
-            entities.map { entity ->
-                Letter(
-                    id = entity.id,
-                    content = entity.content,
-                    createdAt = entity.createdAt,
-                    updatedAt = entity.updatedAt,
-                    syncStatus = SyncStatus.valueOf(entity.syncStatus)
-                )
-            }
+            entities.map { it.toLetter() }
+        }
+    }
+
+    override fun getLetterById(id: String): Flow<Letter?> {
+        return queries.selectById(id).asFlow().mapToOneOrNull(Dispatchers.Default).map { entity ->
+            entity?.toLetter()
         }
     }
 
@@ -35,6 +34,8 @@ class LetterRepositoryImpl(
             content = letter.content,
             createdAt = letter.createdAt,
             updatedAt = letter.updatedAt,
+            weekNumber = letter.weekNumber.toLong(),
+            themeColor = letter.themeColor,
             syncStatus = letter.syncStatus.name
         )
     }
@@ -46,7 +47,7 @@ class LetterRepositoryImpl(
     override suspend fun canWriteToday(): Boolean {
         val now = Clock.System.now()
         val today = now.toLocalDateTime(TimeZone.currentSystemDefault()).date
-        
+
         val startOfDay = today.atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds()
         val endOfDay = today.atTime(LocalTime(23, 59, 59))
             .toInstant(TimeZone.currentSystemDefault())
@@ -55,4 +56,14 @@ class LetterRepositoryImpl(
         val lettersToday = queries.selectByDateRange(startOfDay, endOfDay).executeAsList()
         return lettersToday.isEmpty()
     }
+
+    private fun com.mybaby.app.db.LetterEntity.toLetter() = Letter(
+        id = id,
+        content = content,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
+        weekNumber = weekNumber.toInt(),
+        themeColor = themeColor,
+        syncStatus = SyncStatus.valueOf(syncStatus)
+    )
 }

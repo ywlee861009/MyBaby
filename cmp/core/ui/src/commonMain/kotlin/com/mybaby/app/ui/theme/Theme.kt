@@ -8,39 +8,44 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 
-// Primary - 부드러운 코랄/핑크 계열
-private val Pink40 = Color(0xFFE8879A)
+// Primary - 코랄핑크 계열 (디자인 토큰 기준)
+private val Pink40 = Color(0xFFFF8FAB)
+private val PinkLight = Color(0xFFFFF0F3)
 private val Pink80 = Color(0xFFF4B8C4)
 private val Pink90 = Color(0xFFFDE8EC)
 
-// Secondary - 따뜻한 라벤더 계열
-private val Lavender40 = Color(0xFF9B8EC2)
+// Secondary - 라벤더 계열
+private val Lavender40 = Color(0xFF9B72C8)
+private val LavenderLight = Color(0xFFF3EDFB)
 private val Lavender80 = Color(0xFFC9BFE6)
 private val Lavender90 = Color(0xFFEDE8F5)
 
 // Neutral
-private val Warm50 = Color(0xFF5D5148)
-private val Warm80 = Color(0xFFC4B8AE)
+private val OnSurface = Color(0xFF2D2020)
+private val OnSurfaceSubtle = Color(0xFF9E8A8A)
+private val Outline = Color(0xFFE8DDD5)
 private val Warm95 = Color(0xFFFFF8F3)
 private val WarmWhite = Color(0xFFFFFAF5)
 
 // Semantic
-private val Success = Color(0xFF6BBF7A)
-private val Warning = Color(0xFFF2C94C)
-private val Error = Color(0xFFE57373)
-private val Info = Color(0xFF64B5F6)
+private val Error = Color(0xFFE53935)
 
 private val LightPumColors = PumColors(
     primary = Pink40,
     onPrimary = Color.White,
     primaryContainer = Pink90,
     onPrimaryContainer = Color(0xFF3E0A16),
+    primaryLight = PinkLight,
     secondary = Lavender40,
     onSecondary = Color.White,
+    secondaryLight = LavenderLight,
+    secondaryVariant = Lavender40,
     background = WarmWhite,
-    onBackground = Warm50,
+    onBackground = OnSurface,
     surface = Color.White,
-    onSurface = Warm50,
+    onSurface = OnSurface,
+    onSurfaceSubtle = OnSurfaceSubtle,
+    outline = Outline,
     error = Error,
     onError = Color.White,
     isLight = true
@@ -51,12 +56,17 @@ private val DarkPumColors = PumColors(
     onPrimary = Color(0xFF3E0A16),
     primaryContainer = Color(0xFF7A3045),
     onPrimaryContainer = Pink90,
+    primaryLight = Color(0xFF3A1A22),
     secondary = Lavender80,
     onSecondary = Color(0xFF1D1145),
+    secondaryLight = Color(0xFF2A2040),
+    secondaryVariant = Lavender80,
     background = Color(0xFF1C1B1E),
     onBackground = Color(0xFFE6E1E5),
     surface = Color(0xFF252328),
     onSurface = Color(0xFFE6E1E5),
+    onSurfaceSubtle = Color(0xFF9E8A8A),
+    outline = Color(0xFF4A3F3F),
     error = Color(0xFFFFB4AB),
     onError = Color(0xFF690005),
     isLight = false
@@ -100,7 +110,6 @@ fun MyBabyTheme(
     val pumColors = if (darkTheme) DarkPumColors else LightPumColors
     val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
 
-    // PumDesignSystem의 토큰들을 주입합니다.
     CompositionLocalProvider(
         LocalPumColors provides pumColors,
         LocalPumTypography provides PumTypography(

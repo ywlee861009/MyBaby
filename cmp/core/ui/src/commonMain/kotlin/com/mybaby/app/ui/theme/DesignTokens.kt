@@ -9,7 +9,6 @@ import androidx.compose.ui.unit.dp
 
 /**
  * 디자인 시스템의 '뼈대'가 되는 색상 체계입니다.
- * 나중에 디자인 가이드가 확정되면 이 항목들을 실제 브랜드 컬러로 채웁니다.
  */
 @Immutable
 data class PumColors(
@@ -17,12 +16,17 @@ data class PumColors(
     val onPrimary: Color,
     val primaryContainer: Color,
     val onPrimaryContainer: Color,
+    val primaryLight: Color,
     val secondary: Color,
     val onSecondary: Color,
+    val secondaryLight: Color,
+    val secondaryVariant: Color,
     val background: Color,
     val onBackground: Color,
     val surface: Color,
     val onSurface: Color,
+    val onSurfaceSubtle: Color,
+    val outline: Color,
     val error: Color,
     val onError: Color,
     val isLight: Boolean
@@ -44,7 +48,6 @@ data class PumTypography(
 
 /**
  * 디자인 시스템의 '간격(Spacing)' 체계입니다.
- * 하드코딩된 숫자(8.dp, 16.dp) 대신 역할을 부여합니다.
  */
 @Immutable
 data class PumSpacing(
@@ -56,7 +59,6 @@ data class PumSpacing(
     val extraLarge: Dp = 32.dp
 )
 
-// CompositionLocal을 통해 앱 전체에서 접근 가능하게 설정합니다.
 val LocalPumColors = staticCompositionLocalOf<PumColors> {
     error("No PumColors provided! Make sure to wrap your content in MyBabyTheme.")
 }
@@ -66,12 +68,9 @@ val LocalPumTypography = staticCompositionLocalOf<PumTypography> {
 }
 
 val LocalPumSpacing = staticCompositionLocalOf<PumSpacing> {
-    PumSpacing() // 기본값 제공
+    PumSpacing()
 }
 
-/**
- * UI 코드에서 PumTheme.colors.primary 처럼 접근하기 위한 오브젝트입니다.
- */
 object PumTheme {
     val colors: PumColors
         @androidx.compose.runtime.Composable
