@@ -56,6 +56,8 @@ import com.mybaby.app.feature.letter.LetterListViewModel
 import com.mybaby.app.feature.letter.LetterWriteViewModel
 import com.mybaby.app.feature.letter.LetterDetailViewModel
 import com.mybaby.app.feature.letter.LetterEditViewModel
+import com.mybaby.app.feature.more.MoreScreen
+import com.mybaby.app.feature.more.MoreViewModel
 import com.mybaby.app.feature.setup.SetupBabyInfoScreen
 import com.mybaby.app.feature.setup.SetupBabyInfoViewModel
 import com.mybaby.app.feature.setup.SetupPregnancyInfoScreen
@@ -292,7 +294,8 @@ fun AppNavigation(
                 PlaceholderScreen("진료 일정")
             }
             composable<Screen.More> {
-                PlaceholderScreen("더보기")
+                val vm: MoreViewModel = viewModel { MoreViewModel(babyRepository) }
+                MoreScreen(viewModel = vm)
             }
         }
     }
