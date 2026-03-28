@@ -22,6 +22,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mybaby.app.feature.home.HomeScreen
+import com.mybaby.app.feature.home.HomeViewModel
+import com.mybaby.app.feature.letter.LetterScreen
+import com.mybaby.app.feature.letter.LetterViewModel
 
 data class BottomNavItem(
     val label: String,
@@ -36,10 +41,6 @@ val bottomNavItems = listOf(
     BottomNavItem("일정", Icons.Rounded.DateRange, Screen.Schedule),
     BottomNavItem("더보기", Icons.Rounded.Menu, Screen.More),
 )
-
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.mybaby.app.feature.home.HomeScreen
-import com.mybaby.app.feature.home.HomeViewModel
 
 @Composable
 fun AppNavigation() {
@@ -87,7 +88,8 @@ fun AppNavigation() {
                 PlaceholderScreen("건강 기록")
             }
             composable<Screen.Letter> {
-                PlaceholderScreen("태아에게 보내는 편지")
+                val letterViewModel: LetterViewModel = viewModel { LetterViewModel() }
+                LetterScreen(viewModel = letterViewModel)
             }
             composable<Screen.Schedule> {
                 PlaceholderScreen("진료 일정")

@@ -31,7 +31,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:ui"))
+            implementation(project(":feature:home"))
+            implementation(project(":feature:letter"))
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
