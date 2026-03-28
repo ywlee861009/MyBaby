@@ -171,8 +171,7 @@ fun AppNavigation(
             navController = navController,
             startDestination = startDestination,
             modifier = Modifier
-                .padding(innerPadding)
-                .statusBarsPadding(),
+                .padding(innerPadding),
             enterTransition = {
                 val from = initialState.tabIndex()
                 val to = targetState.tabIndex()
