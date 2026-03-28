@@ -66,6 +66,7 @@ fun LetterWriteScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .imePadding()
         ) {
             // TopBar
             LetterWriteTopBar(

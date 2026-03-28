@@ -40,9 +40,12 @@
 
 ## 구현 현황 (Current Status)
 - **[완료] 디자인 시스템:** `core:ui` 모듈에 `PumTheme` 및 기본 컴포넌트 구현 완료.
-- **[완료] 아기에게 보내는 편지:** `feature:letter` 모듈 구현 완료. 로컬 DB(SQLDelight) 연동 및 MVI 패턴 적용.
-- **[MVP 완료] 홈 대시보드:** `feature:home` 모듈 구현 완료. 주차 및 디데이 요약 정보 표시.
-- **[준비 중] 건강 기록:** `:feature:record` 모듈 구조 정의 및 구현 예정. (현재 `settings.gradle.kts`에만 포함됨)
+- **[완료] 온보딩 (Setup):** `feature:setup` 모듈 구현 완료. 아기 정보 및 임신/출산 정보 설정 기능 제공.
+- **[완료] 아기에게 보내는 편지:** `feature:letter` 모듈 (목록, 작성, 상세, 수정) 구현 완료. 로컬 DB(SQLDelight) 연동 및 MVI 패턴 적용.
+- **[완료] 홈 대시보드:** `feature:home` 모듈 구현 완료. 주차 및 디데이 요약 정보 표시.
+- **[완료] 설정 및 프로필 (More):** `feature:more` 모듈 구현 완료. 아기 정보 수정 및 프로필 관리 기능.
+- **[준비 중] 건강 기록 (Health Record):** `feature:record` 모듈 구조 정의 및 구현 예정. (현재 Placeholder 상태)
+- **[준비 중] 진료 일정 (Schedule):** 진료 일정 관리 및 알림 기능 구현 예정. (현재 Placeholder 상태)
 
 ## Gemini CLI 지침
 - 새로운 기능을 추가할 때는 `cmp/` 폴더 내의 KMP 구조를 따르세요.

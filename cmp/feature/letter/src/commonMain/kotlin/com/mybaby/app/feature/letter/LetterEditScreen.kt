@@ -63,6 +63,7 @@ fun LetterEditScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .imePadding()
         ) {
             // TopBar
             LetterEditTopBar(
