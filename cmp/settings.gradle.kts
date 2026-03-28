@@ -33,6 +33,8 @@ dependencyResolutionManagement {
 include(":composeApp")
 include(":core:ui")
 include(":core:model")
+include(":core:database")
+include(":core:data")
 include(":feature:home")
 include(":feature:record")
 include(":feature:letter")

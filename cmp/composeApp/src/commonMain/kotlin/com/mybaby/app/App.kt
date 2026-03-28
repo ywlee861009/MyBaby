@@ -1,12 +1,15 @@
 package com.mybaby.app
 
 import androidx.compose.runtime.Composable
+import com.mybaby.app.core.data.LetterRepository
 import com.mybaby.app.navigation.AppNavigation
 import com.mybaby.app.ui.theme.MyBabyTheme
 
 @Composable
-fun App() {
+fun App(
+    letterRepository: LetterRepository
+) {
     MyBabyTheme {
-        AppNavigation()
+        AppNavigation(letterRepository = letterRepository)
     }
 }

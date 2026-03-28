@@ -23,6 +23,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mybaby.app.core.data.LetterRepository
 import com.mybaby.app.feature.home.HomeScreen
 import com.mybaby.app.feature.home.HomeViewModel
 import com.mybaby.app.feature.letter.LetterScreen
@@ -43,7 +44,9 @@ val bottomNavItems = listOf(
 )
 
 @Composable
-fun AppNavigation() {
+fun AppNavigation(
+    letterRepository: LetterRepository
+) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -88,7 +91,7 @@ fun AppNavigation() {
                 PlaceholderScreen("건강 기록")
             }
             composable<Screen.Letter> {
-                val letterViewModel: LetterViewModel = viewModel { LetterViewModel() }
+                val letterViewModel: LetterViewModel = viewModel { LetterViewModel(letterRepository) }
                 LetterScreen(viewModel = letterViewModel)
             }
             composable<Screen.Schedule> {

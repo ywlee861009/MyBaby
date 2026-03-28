@@ -1,0 +1,20 @@
+CREATE TABLE LetterEntity (
+    id TEXT NOT NULL PRIMARY KEY,
+    content TEXT NOT NULL,
+    createdAt INTEGER NOT NULL,
+    updatedAt INTEGER NOT NULL,
+    syncStatus TEXT NOT NULL
+);
+
+selectAll:
+SELECT * FROM LetterEntity ORDER BY createdAt DESC;
+
+insertLetter:
+INSERT OR REPLACE INTO LetterEntity(id, content, createdAt, updatedAt, syncStatus)
+VALUES (?, ?, ?, ?, ?);
+
+deleteLetter:
+DELETE FROM LetterEntity WHERE id = ?;
+
+selectByDateRange:
+SELECT * FROM LetterEntity WHERE createdAt >= ? AND createdAt <= ?;

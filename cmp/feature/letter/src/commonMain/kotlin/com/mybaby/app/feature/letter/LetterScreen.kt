@@ -15,7 +15,11 @@ import androidx.compose.ui.unit.dp
 import com.mybaby.app.core.model.Letter
 import com.mybaby.app.ui.components.PumButton
 import com.mybaby.app.ui.theme.PumTheme
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LetterScreen(
     viewModel: LetterViewModel
@@ -121,7 +125,7 @@ fun LetterItem(letter: Letter, onClick: () -> Unit) {
     ) {
         Column(modifier = Modifier.padding(PumTheme.spacing.medium)) {
             Text(
-                text = "2026. 03. 28", // TODO: 실제 날짜 포맷팅
+                text = formatEpochMillis(letter.createdAt),
                 style = PumTheme.typography.labelSmall,
                 color = PumTheme.colors.primary
             )
@@ -134,4 +138,13 @@ fun LetterItem(letter: Letter, onClick: () -> Unit) {
             )
         }
     }
+}
+
+private fun formatEpochMillis(millis: Long): String {
+    val instant = Instant.fromEpochMilliseconds(millis)
+    val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
+    val year = localDateTime.year
+    val month = localDateTime.monthNumber.toString().padStart(2, '0')
+    val day = localDateTime.dayOfMonth.toString().padStart(2, '0')
+    return "$year. $month. $day"
 }
