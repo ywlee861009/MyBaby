@@ -1,0 +1,18 @@
+CREATE TABLE BabyEntity (
+    id TEXT NOT NULL PRIMARY KEY,
+    nickname TEXT NOT NULL,
+    gender TEXT NOT NULL,
+    dueDate INTEGER,
+    birthDate INTEGER,
+    createdAt INTEGER NOT NULL
+);
+
+selectFirst:
+SELECT * FROM BabyEntity LIMIT 1;
+
+insert:
+INSERT OR REPLACE INTO BabyEntity(id, nickname, gender, dueDate, birthDate, createdAt)
+VALUES (?, ?, ?, ?, ?, ?);
+
+deleteAll:
+DELETE FROM BabyEntity;
