@@ -7,9 +7,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-/**
- * 디자인 시스템의 '뼈대'가 되는 색상 체계입니다.
- */
 @Immutable
 data class PumColors(
     val primary: Color,
@@ -17,6 +14,7 @@ data class PumColors(
     val primaryContainer: Color,
     val onPrimaryContainer: Color,
     val primaryLight: Color,
+    val primaryVariant: Color,
     val secondary: Color,
     val onSecondary: Color,
     val secondaryLight: Color,
@@ -29,12 +27,16 @@ data class PumColors(
     val outline: Color,
     val error: Color,
     val onError: Color,
+    val errorLight: Color,
+    val success: Color,
+    val successLight: Color,
+    val warning: Color,
+    val warningLight: Color,
+    val info: Color,
+    val infoLight: Color,
     val isLight: Boolean
 )
 
-/**
- * 디자인 시스템의 '서체' 체계입니다.
- */
 @Immutable
 data class PumTypography(
     val headlineLarge: TextStyle,
@@ -46,9 +48,6 @@ data class PumTypography(
     val labelSmall: TextStyle
 )
 
-/**
- * 디자인 시스템의 '간격(Spacing)' 체계입니다.
- */
 @Immutable
 data class PumSpacing(
     val default: Dp = 0.dp,

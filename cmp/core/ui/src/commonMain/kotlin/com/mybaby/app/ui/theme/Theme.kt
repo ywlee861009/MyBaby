@@ -8,14 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 
-// Primary - 코랄핑크 계열 (디자인 토큰 기준)
+// Primary - 코랄핑크 계열
 private val Pink40 = Color(0xFFFF8FAB)
+private val PinkVariant = Color(0xFFE5607A)
 private val PinkLight = Color(0xFFFFF0F3)
 private val Pink80 = Color(0xFFF4B8C4)
 private val Pink90 = Color(0xFFFDE8EC)
 
 // Secondary - 라벤더 계열
 private val Lavender40 = Color(0xFF9B72C8)
+private val LavenderMid = Color(0xFFC9A8E0)
 private val LavenderLight = Color(0xFFF3EDFB)
 private val Lavender80 = Color(0xFFC9BFE6)
 private val Lavender90 = Color(0xFFEDE8F5)
@@ -24,11 +26,17 @@ private val Lavender90 = Color(0xFFEDE8F5)
 private val OnSurface = Color(0xFF2D2020)
 private val OnSurfaceSubtle = Color(0xFF9E8A8A)
 private val Outline = Color(0xFFE8DDD5)
-private val Warm95 = Color(0xFFFFF8F3)
 private val WarmWhite = Color(0xFFFFFAF5)
 
 // Semantic
 private val Error = Color(0xFFE53935)
+private val ErrorLight = Color(0xFFFDECEA)
+private val Success = Color(0xFF5CB85C)
+private val SuccessLight = Color(0xFFEFF8EF)
+private val Warning = Color(0xFFF0A500)
+private val WarningLight = Color(0xFFFFF8E6)
+private val Info = Color(0xFF4A90D9)
+private val InfoLight = Color(0xFFEBF4FC)
 
 private val LightPumColors = PumColors(
     primary = Pink40,
@@ -36,7 +44,8 @@ private val LightPumColors = PumColors(
     primaryContainer = Pink90,
     onPrimaryContainer = Color(0xFF3E0A16),
     primaryLight = PinkLight,
-    secondary = Lavender40,
+    primaryVariant = PinkVariant,
+    secondary = LavenderMid,
     onSecondary = Color.White,
     secondaryLight = LavenderLight,
     secondaryVariant = Lavender40,
@@ -48,6 +57,13 @@ private val LightPumColors = PumColors(
     outline = Outline,
     error = Error,
     onError = Color.White,
+    errorLight = ErrorLight,
+    success = Success,
+    successLight = SuccessLight,
+    warning = Warning,
+    warningLight = WarningLight,
+    info = Info,
+    infoLight = InfoLight,
     isLight = true
 )
 
@@ -57,6 +73,7 @@ private val DarkPumColors = PumColors(
     primaryContainer = Color(0xFF7A3045),
     onPrimaryContainer = Pink90,
     primaryLight = Color(0xFF3A1A22),
+    primaryVariant = Color(0xFFFF6B8A),
     secondary = Lavender80,
     onSecondary = Color(0xFF1D1145),
     secondaryLight = Color(0xFF2A2040),
@@ -69,6 +86,13 @@ private val DarkPumColors = PumColors(
     outline = Color(0xFF4A3F3F),
     error = Color(0xFFFFB4AB),
     onError = Color(0xFF690005),
+    errorLight = Color(0xFF3A1A18),
+    success = Color(0xFF81C784),
+    successLight = Color(0xFF1A2E1A),
+    warning = Color(0xFFFFCC02),
+    warningLight = Color(0xFF2E2500),
+    info = Color(0xFF64B5F6),
+    infoLight = Color(0xFF0D1F2E),
     isLight = false
 )
 
