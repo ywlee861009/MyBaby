@@ -2,12 +2,14 @@ package com.mybaby.app.feature.letter
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mybaby.app.core.data.BabyRepository
 import com.mybaby.app.core.data.LetterRepository
 import com.mybaby.app.core.model.Letter
 import com.mybaby.app.core.model.SyncStatus
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -15,7 +17,8 @@ import kotlinx.datetime.Clock
 import kotlin.random.Random
 
 class LetterWriteViewModel(
-    private val repository: LetterRepository
+    private val repository: LetterRepository,
+    private val babyRepository: BabyRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(LetterWriteState())
@@ -23,6 +26,16 @@ class LetterWriteViewModel(
 
     private val _events = Channel<LetterUiEvent>(Channel.BUFFERED)
     val events = _events.receiveAsFlow()
+
+    init {
+        viewModelScope.launch {
+            babyRepository.getBaby().collectLatest { baby ->
+                baby?.nickname?.let { nick ->
+                    _state.update { it.copy(babyNickname = nick) }
+                }
+            }
+        }
+    }
 
     fun handleIntent(intent: LetterWriteIntent) {
         when (intent) {

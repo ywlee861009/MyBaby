@@ -87,7 +87,7 @@ fun LetterWriteScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        "To. 콩이",
+                        "To. ${state.babyNickname}",
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold,
                         color = PumTheme.colors.onSurface

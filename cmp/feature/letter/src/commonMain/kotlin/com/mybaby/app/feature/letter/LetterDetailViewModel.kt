@@ -2,6 +2,7 @@ package com.mybaby.app.feature.letter
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mybaby.app.core.data.BabyRepository
 import com.mybaby.app.core.data.LetterRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,6 +14,7 @@ import kotlinx.coroutines.launch
 
 class LetterDetailViewModel(
     private val repository: LetterRepository,
+    private val babyRepository: BabyRepository,
     private val letterId: String
 ) : ViewModel() {
 
@@ -24,6 +26,13 @@ class LetterDetailViewModel(
 
     init {
         observeLetter()
+        viewModelScope.launch {
+            babyRepository.getBaby().collectLatest { baby ->
+                baby?.nickname?.let { nick ->
+                    _state.update { it.copy(babyNickname = nick) }
+                }
+            }
+        }
     }
 
     fun handleIntent(intent: LetterDetailIntent) {

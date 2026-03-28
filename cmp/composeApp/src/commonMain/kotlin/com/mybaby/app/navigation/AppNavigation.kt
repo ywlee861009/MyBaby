@@ -259,7 +259,7 @@ fun AppNavigation(
                 )
             }
             composable<Screen.Letter.Write> {
-                val vm: LetterWriteViewModel = viewModel { LetterWriteViewModel(letterRepository) }
+                val vm: LetterWriteViewModel = viewModel { LetterWriteViewModel(letterRepository, babyRepository) }
                 LetterWriteScreen(
                     viewModel = vm,
                     onNavigateBack = { navController.popBackStack() }
@@ -268,7 +268,7 @@ fun AppNavigation(
             composable<Screen.Letter.Detail> { backStackEntry ->
                 val route = backStackEntry.toRoute<Screen.Letter.Detail>()
                 val vm: LetterDetailViewModel = viewModel(key = route.id) {
-                    LetterDetailViewModel(letterRepository, route.id)
+                    LetterDetailViewModel(letterRepository, babyRepository, route.id)
                 }
                 LetterDetailScreen(
                     viewModel = vm,
@@ -281,7 +281,7 @@ fun AppNavigation(
             composable<Screen.Letter.Edit> { backStackEntry ->
                 val route = backStackEntry.toRoute<Screen.Letter.Edit>()
                 val vm: LetterEditViewModel = viewModel(key = route.id) {
-                    LetterEditViewModel(letterRepository, route.id)
+                    LetterEditViewModel(letterRepository, babyRepository, route.id)
                 }
                 LetterEditScreen(
                     viewModel = vm,

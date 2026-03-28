@@ -31,7 +31,8 @@ data class LetterWriteState(
     val draftContent: String = "",
     val selectedTheme: String = "#FFF8F0",
     val weekNumber: Int = 24,
-    val isSaving: Boolean = false
+    val isSaving: Boolean = false,
+    val babyNickname: String = "아기"
 )
 
 sealed interface LetterWriteIntent {
@@ -46,7 +47,8 @@ data class LetterDetailState(
     val letter: Letter? = null,
     val isLoading: Boolean = true,
     val showMenu: Boolean = false,
-    val showDeleteDialog: Boolean = false
+    val showDeleteDialog: Boolean = false,
+    val babyNickname: String = "아기"
 )
 
 sealed interface LetterDetailIntent {
@@ -65,7 +67,8 @@ data class LetterEditState(
     val draftContent: String = "",
     val selectedTheme: String = "#FFF8F0",
     val isLoading: Boolean = true,
-    val isSaving: Boolean = false
+    val isSaving: Boolean = false,
+    val babyNickname: String = "아기"
 )
 
 sealed interface LetterEditIntent {
