@@ -1,0 +1,8 @@
+CREATE TABLE BabyEntity (
+    id TEXT NOT NULL PRIMARY KEY,
+    nickname TEXT NOT NULL,
+    gender TEXT NOT NULL,
+    dueDate INTEGER,
+    birthDate INTEGER,
+    createdAt INTEGER NOT NULL
+);
