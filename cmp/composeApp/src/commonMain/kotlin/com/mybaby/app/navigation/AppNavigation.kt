@@ -43,7 +43,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mybaby.app.core.data.BabyRepository
 import com.mybaby.app.core.data.LetterRepository
+import com.mybaby.app.core.model.BabyGender
 import com.mybaby.app.feature.home.HomeScreen
 import com.mybaby.app.feature.home.HomeViewModel
 import com.mybaby.app.feature.letter.LetterListScreen
@@ -54,6 +56,10 @@ import com.mybaby.app.feature.letter.LetterListViewModel
 import com.mybaby.app.feature.letter.LetterWriteViewModel
 import com.mybaby.app.feature.letter.LetterDetailViewModel
 import com.mybaby.app.feature.letter.LetterEditViewModel
+import com.mybaby.app.feature.setup.SetupBabyInfoScreen
+import com.mybaby.app.feature.setup.SetupBabyInfoViewModel
+import com.mybaby.app.feature.setup.SetupPregnancyInfoScreen
+import com.mybaby.app.feature.setup.SetupPregnancyInfoViewModel
 import com.mybaby.app.ui.theme.PumTheme
 import kotlinx.coroutines.launch
 
@@ -87,8 +93,14 @@ private fun NavDestination?.isLetterTab(): Boolean =
     this?.hasRoute(Screen.Letter.List::class) == true ||
             this?.hasRoute(Screen.Letter.Detail::class) == true
 
+private fun NavDestination?.isSetupScreen(): Boolean =
+    this?.hasRoute(Screen.Setup.BabyInfo::class) == true ||
+            this?.hasRoute(Screen.Setup.PregnancyInfo::class) == true
+
 @Composable
 fun AppNavigation(
+    startDestination: Screen = Screen.Home,
+    babyRepository: BabyRepository,
     letterRepository: LetterRepository,
     onExit: () -> Unit = {}
 ) {
@@ -100,7 +112,8 @@ fun AppNavigation(
     val coroutineScope = rememberCoroutineScope()
 
     val showBottomBar = currentDestination?.hasRoute(Screen.Letter.Write::class) != true &&
-            currentDestination?.hasRoute(Screen.Letter.Edit::class) != true
+            currentDestination?.hasRoute(Screen.Letter.Edit::class) != true &&
+            !currentDestination.isSetupScreen()
 
     // 최상위 탭에 있을 때만 백프레스 인터셉트
     val isOnTopLevelTab = currentDestination?.let {
@@ -154,7 +167,7 @@ fun AppNavigation(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Screen.Home,
+            startDestination = startDestination,
             modifier = Modifier
                 .padding(innerPadding)
                 .statusBarsPadding(),
@@ -163,11 +176,9 @@ fun AppNavigation(
                 val to = targetState.tabIndex()
                 when {
                     from != null && to != null ->
-                        // 탭 전환: 인덱스 기준 방향 결정
                         if (to > from) slideInHorizontally(tween(ANIM_DURATION)) { it }
                         else slideInHorizontally(tween(ANIM_DURATION)) { -it }
                     else ->
-                        // 푸시 전환: 우측에서 진입
                         slideInHorizontally(tween(ANIM_DURATION)) { it } + fadeIn(tween(ANIM_DURATION))
                 }
             },
@@ -183,14 +194,50 @@ fun AppNavigation(
                 }
             },
             popEnterTransition = {
-                // 팝 복귀: 왼쪽에서 진입
                 slideInHorizontally(tween(ANIM_DURATION)) { -it } + fadeIn(tween(ANIM_DURATION))
             },
             popExitTransition = {
-                // 팝 나가기: 오른쪽으로 퇴장
                 slideOutHorizontally(tween(ANIM_DURATION)) { it } + fadeOut(tween(ANIM_DURATION))
             }
         ) {
+            // ── 온보딩 화면 ──────────────────────────────────
+            composable<Screen.Setup.BabyInfo> {
+                val vm: SetupBabyInfoViewModel = viewModel { SetupBabyInfoViewModel() }
+                SetupBabyInfoScreen(
+                    viewModel = vm,
+                    onNavigateNext = { nickname, gender, isBorn ->
+                        navController.navigate(
+                            Screen.Setup.PregnancyInfo(
+                                nickname = nickname,
+                                gender = gender.name,
+                                isBorn = isBorn
+                            )
+                        )
+                    }
+                )
+            }
+            composable<Screen.Setup.PregnancyInfo> { backStackEntry ->
+                val route = backStackEntry.toRoute<Screen.Setup.PregnancyInfo>()
+                val vm: SetupPregnancyInfoViewModel = viewModel {
+                    SetupPregnancyInfoViewModel(
+                        babyRepository = babyRepository,
+                        nickname = route.nickname,
+                        gender = BabyGender.valueOf(route.gender),
+                        isBorn = route.isBorn
+                    )
+                }
+                SetupPregnancyInfoScreen(
+                    viewModel = vm,
+                    onNavigateBack = { navController.popBackStack() },
+                    onSetupComplete = {
+                        navController.navigate(Screen.Home) {
+                            popUpTo(0) { inclusive = true }
+                        }
+                    }
+                )
+            }
+
+            // ── 메인 화면 ─────────────────────────────────────
             composable<Screen.Home> {
                 val homeViewModel: HomeViewModel = viewModel { HomeViewModel() }
                 HomeScreen(

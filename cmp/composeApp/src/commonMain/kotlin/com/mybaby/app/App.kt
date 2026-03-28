@@ -1,16 +1,41 @@
 package com.mybaby.app
 
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import com.mybaby.app.core.data.BabyRepository
 import com.mybaby.app.core.data.LetterRepository
 import com.mybaby.app.navigation.AppNavigation
+import com.mybaby.app.navigation.Screen
 import com.mybaby.app.ui.theme.MyBabyTheme
+import kotlinx.coroutines.flow.first
 
 @Composable
 fun App(
+    babyRepository: BabyRepository,
     letterRepository: LetterRepository,
     onExit: () -> Unit = {}
 ) {
     MyBabyTheme {
-        AppNavigation(letterRepository = letterRepository, onExit = onExit)
+        var startDestination by remember { mutableStateOf<Screen?>(null) }
+
+        LaunchedEffect(Unit) {
+            val baby = babyRepository.getBaby().first()
+            startDestination = if (baby != null) Screen.Home else Screen.Setup.BabyInfo
+        }
+
+        val dest = startDestination
+        if (dest != null) {
+            AppNavigation(
+                startDestination = dest,
+                babyRepository = babyRepository,
+                letterRepository = letterRepository,
+                onExit = onExit
+            )
+        } else {
+            // 초기 로딩 중 빈 배경 표시
+            Box(modifier = Modifier.fillMaxSize())
+        }
     }
 }

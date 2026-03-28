@@ -34,6 +34,7 @@ kotlin {
             implementation(project(":feature:home"))
             implementation(project(":feature:letter"))
             implementation(project(":feature:setup"))
+            implementation(project(":core:model"))
             implementation(project(":core:ui"))
             implementation(project(":core:database"))
             implementation(project(":core:data"))
