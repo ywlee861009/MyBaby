@@ -26,9 +26,12 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":core:ui"))
             implementation(project(":core:model"))
+            implementation(project(":core:data"))
+            implementation(libs.kotlinx.datetime)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
             implementation(compose.ui)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(libs.androidx.lifecycle.runtime.compose)

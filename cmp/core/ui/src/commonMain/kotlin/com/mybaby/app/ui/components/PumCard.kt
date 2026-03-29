@@ -178,7 +178,8 @@ fun PumChecklistCard(
     items: List<ChecklistItem>,
     completedCount: Int,
     totalCount: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onItemClick: ((String) -> Unit)? = null
 ) {
     val colors = PumTheme.colors
 
@@ -223,6 +224,7 @@ fun PumChecklistCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(colors.surface)
+                    .then(if (onItemClick != null) Modifier.clickable { onItemClick(item.id) } else Modifier)
                     .padding(horizontal = 16.dp, vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(12.dp)

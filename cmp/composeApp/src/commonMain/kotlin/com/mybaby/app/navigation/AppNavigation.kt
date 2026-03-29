@@ -240,11 +240,31 @@ fun AppNavigation(
 
             // ── 메인 화면 ─────────────────────────────────────
             composable<Screen.Home> {
-                val homeViewModel: HomeViewModel = viewModel { HomeViewModel() }
+                val homeViewModel: HomeViewModel = viewModel { HomeViewModel(babyRepository) }
                 HomeScreen(
                     viewModel = homeViewModel,
-                    onNavigateToRecord = {
-                        navController.navigate(Screen.HealthRecord)
+                    onNavigateToRecord = { navController.navigate(Screen.HealthRecord) },
+                    onNavigateToLetterWrite = { navController.navigate(Screen.Letter.Write) },
+                    onNavigateToScheduleAdd = {
+                        navController.navigate(Screen.Schedule) {
+                            popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
+                    onNavigateToMore = {
+                        navController.navigate(Screen.More) {
+                            popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
+                    onNavigateToSchedule = {
+                        navController.navigate(Screen.Schedule) {
+                            popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     }
                 )
             }
