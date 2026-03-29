@@ -30,7 +30,7 @@ sealed interface LetterListIntent {
 data class LetterWriteState(
     val draftContent: String = "",
     val selectedTheme: String = "#FFF8F0",
-    val weekNumber: Int = 24,
+    val weekNumber: Int = 0,
     val isSaving: Boolean = false,
     val babyNickname: String = "아기"
 )

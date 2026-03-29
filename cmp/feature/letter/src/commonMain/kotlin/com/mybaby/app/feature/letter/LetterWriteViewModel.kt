@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -30,8 +32,20 @@ class LetterWriteViewModel(
     init {
         viewModelScope.launch {
             babyRepository.getBaby().collectLatest { baby ->
-                baby?.nickname?.let { nick ->
-                    _state.update { it.copy(babyNickname = nick) }
+                val msPerDay = 24L * 3600L * 1000L
+                val msPerWeek = 7L * msPerDay
+                val dueDate = baby?.dueDate
+                val weekNumber = if (dueDate != null) {
+                    val pregnancyStartMillis = dueDate - 280 * msPerDay
+                    val elapsedMillis = Clock.System.now().toEpochMilliseconds() - pregnancyStartMillis
+                    (elapsedMillis / msPerWeek).toInt().coerceIn(0, 40)
+                } else 0
+
+                _state.update {
+                    it.copy(
+                        babyNickname = baby?.nickname ?: it.babyNickname,
+                        weekNumber = weekNumber
+                    )
                 }
             }
         }
