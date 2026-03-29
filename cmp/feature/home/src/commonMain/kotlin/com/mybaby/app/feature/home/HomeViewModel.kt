@@ -93,15 +93,29 @@ class HomeViewModel(private val babyRepository: BabyRepository) : ViewModel() {
                     )
                 )
 
+                val msPerDay = 24L * 3600L * 1000L
+                val msPerWeek = 7L * msPerDay
+                val dueDate = baby?.dueDate
+                val (currentWeek, currentDay, dDay) = if (dueDate != null) {
+                    val pregnancyStartMillis = dueDate - 280 * msPerDay
+                    val elapsedMillis = nowMillis - pregnancyStartMillis
+                    val week = (elapsedMillis / msPerWeek).toInt().coerceIn(0, 40)
+                    val day = ((elapsedMillis % msPerWeek) / msPerDay).toInt().coerceIn(0, 6)
+                    val daysRemaining = ((dueDate - nowMillis) / msPerDay).toInt().coerceAtLeast(0)
+                    Triple(week, day, daysRemaining)
+                } else {
+                    Triple(0, 0, 0)
+                }
+
                 _state.update {
                     it.copy(
                         isLoading = false,
                         nickname = baby?.nickname ?: "엄마",
                         todayLabel = todayLabel,
-                        currentWeek = 24,
-                        currentDay = 3,
-                        dDay = 110,
-                        babySizeDescription = getBabySizeDescription(24),
+                        currentWeek = currentWeek,
+                        currentDay = currentDay,
+                        dDay = dDay,
+                        babySizeDescription = getBabySizeDescription(currentWeek),
                         weeklyChecklist = dummyChecklist,
                         upcomingSchedules = dummySchedules,
                         recentRecords = dummyRecords

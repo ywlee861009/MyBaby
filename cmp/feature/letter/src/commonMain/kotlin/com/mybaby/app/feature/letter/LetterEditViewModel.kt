@@ -9,6 +9,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -47,19 +48,20 @@ class LetterEditViewModel(
 
     private fun observeLetter() {
         viewModelScope.launch {
-            repository.getLetterById(letterId).collectLatest { letter ->
-                if (letter != null && _state.value.isLoading) {
-                    _state.update {
-                        it.copy(
-                            letter = letter,
-                            draftContent = letter.content,
-                            selectedTheme = letter.themeColor,
-                            isLoading = false
-                        )
-                    }
-                } else if (!_state.value.isLoading) {
-                    _state.update { it.copy(letter = letter) }
+            // 편집 화면에서는 최초 1회만 편지를 불러와 폼을 초기화한다.
+            // collectLatest로 계속 구독하면 DB 업데이트 시 사용자의 작성 중인 내용이 덮어씌워지는 버그가 발생함.
+            val letter = repository.getLetterById(letterId).first()
+            if (letter != null) {
+                _state.update {
+                    it.copy(
+                        letter = letter,
+                        draftContent = letter.content,
+                        selectedTheme = letter.themeColor,
+                        isLoading = false
+                    )
                 }
+            } else {
+                _state.update { it.copy(isLoading = false) }
             }
         }
     }

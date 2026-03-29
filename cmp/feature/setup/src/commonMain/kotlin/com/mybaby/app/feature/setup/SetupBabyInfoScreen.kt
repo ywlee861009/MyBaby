@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mybaby.app.core.model.BabyGender
 import com.mybaby.app.ui.theme.PumTheme
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SetupBabyInfoScreen(
@@ -33,7 +34,7 @@ fun SetupBabyInfoScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(Unit) {
-        viewModel.events.collect { event ->
+        viewModel.events.collectLatest { event ->
             when (event) {
                 is SetupBabyInfoEvent.NavigateNext ->
                     onNavigateNext(event.nickname, event.gender, event.isBorn)

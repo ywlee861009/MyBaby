@@ -28,6 +28,7 @@ import com.mybaby.app.core.model.HealthRecord
 import com.mybaby.app.core.model.Schedule
 import com.mybaby.app.ui.components.*
 import com.mybaby.app.ui.theme.PumTheme
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -43,8 +44,8 @@ fun HomeScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
-    LaunchedEffect(viewModel.events) {
-        viewModel.events.collect { event ->
+    LaunchedEffect(Unit) {
+        viewModel.events.collectLatest { event ->
             when (event) {
                 HomeUiEvent.NavigateToLetterWrite -> onNavigateToLetterWrite()
                 HomeUiEvent.NavigateToScheduleAdd -> onNavigateToScheduleAdd()

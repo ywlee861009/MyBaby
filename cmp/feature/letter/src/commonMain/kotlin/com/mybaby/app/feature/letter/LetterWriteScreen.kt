@@ -239,6 +239,6 @@ internal fun parseHexColor(hex: String): Long {
     return when (clean.length) {
         6 -> (0xFF000000L or clean.toLong(16))
         8 -> clean.toLong(16)
-        else -> 0xFFFFF8F0L
+        else -> 0xFFFFF8F0L  // 기본값 = #FFF8F0 (크림색): 0xFF(알파) + FFF8F0(RGB)
     }
 }
