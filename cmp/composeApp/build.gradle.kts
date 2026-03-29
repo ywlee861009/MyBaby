@@ -34,6 +34,7 @@ kotlin {
             implementation(project(":feature:home"))
             implementation(project(":feature:letter"))
             implementation(project(":feature:record"))
+            implementation(project(":feature:schedule"))
             implementation(project(":feature:setup"))
             implementation(project(":feature:more"))
             implementation(project(":core:model"))
@@ -49,6 +50,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.navigation.compose)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.datetime)
         }
 
         androidMain.dependencies {

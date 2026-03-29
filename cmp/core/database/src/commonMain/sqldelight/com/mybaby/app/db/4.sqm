@@ -1,0 +1,12 @@
+CREATE TABLE ScheduleEntity (
+    id TEXT NOT NULL PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL DEFAULT '',
+    dateMillis INTEGER NOT NULL,
+    location TEXT,
+    category TEXT NOT NULL DEFAULT 'ETC',
+    notification TEXT NOT NULL DEFAULT 'NONE',
+    isCompleted INTEGER NOT NULL DEFAULT 0,
+    createdAt INTEGER NOT NULL,
+    updatedAt INTEGER NOT NULL
+);

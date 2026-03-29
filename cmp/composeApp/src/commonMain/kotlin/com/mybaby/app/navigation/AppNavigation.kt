@@ -46,9 +46,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mybaby.app.core.data.BabyRepository
 import com.mybaby.app.core.data.HealthRecordRepository
 import com.mybaby.app.core.data.LetterRepository
+import com.mybaby.app.core.data.ScheduleRepository
 import com.mybaby.app.core.model.BabyGender
 import com.mybaby.app.feature.home.HomeScreen
 import com.mybaby.app.feature.home.HomeViewModel
+import com.mybaby.app.feature.schedule.ScheduleScreen
+import com.mybaby.app.feature.schedule.ScheduleViewModel
+import com.mybaby.app.feature.schedule.ScheduleAddScreen
+import com.mybaby.app.feature.schedule.ScheduleAddViewModel
 import com.mybaby.app.feature.record.HealthRecordListScreen
 import com.mybaby.app.feature.record.HealthRecordListViewModel
 import com.mybaby.app.feature.record.HealthRecordAddScreen
@@ -69,6 +74,11 @@ import com.mybaby.app.feature.setup.SetupPregnancyInfoScreen
 import com.mybaby.app.feature.setup.SetupPregnancyInfoViewModel
 import com.mybaby.app.ui.theme.PumTheme
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atStartOfDayIn
+import kotlinx.datetime.toLocalDateTime
 
 private const val ANIM_DURATION = 280
 
@@ -110,6 +120,7 @@ fun AppNavigation(
     babyRepository: BabyRepository,
     letterRepository: LetterRepository,
     healthRecordRepository: HealthRecordRepository,
+    scheduleRepository: ScheduleRepository,
     onExit: () -> Unit = {}
 ) {
     val navController = rememberNavController()
@@ -122,6 +133,7 @@ fun AppNavigation(
     val showBottomBar = currentDestination?.hasRoute(Screen.Letter.Write::class) != true &&
             currentDestination?.hasRoute(Screen.Letter.Edit::class) != true &&
             currentDestination?.hasRoute(Screen.HealthRecordAdd::class) != true &&
+            currentDestination?.hasRoute(Screen.ScheduleAdd::class) != true &&
             !currentDestination.isSetupScreen()
 
     // 최상위 탭에 있을 때만 백프레스 인터셉트
@@ -335,7 +347,29 @@ fun AppNavigation(
                 )
             }
             composable<Screen.Schedule> {
-                PlaceholderScreen("진료 일정")
+                val vm: ScheduleViewModel = viewModel { ScheduleViewModel(scheduleRepository) }
+                ScheduleScreen(
+                    viewModel = vm,
+                    onNavigateToAdd = { date ->
+                        navController.navigate(Screen.ScheduleAdd(date.atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds()))
+                    }
+                )
+            }
+            composable<Screen.ScheduleAdd> { backStackEntry ->
+                val route = backStackEntry.toRoute<Screen.ScheduleAdd>()
+                val vm: ScheduleAddViewModel = viewModel {
+                    ScheduleAddViewModel(
+                        repository = scheduleRepository,
+                        initialDate = if (route.dateMillis > 0L) {
+                            Instant.fromEpochMilliseconds(route.dateMillis)
+                                .toLocalDateTime(TimeZone.currentSystemDefault()).date
+                        } else null
+                    )
+                }
+                ScheduleAddScreen(
+                    viewModel = vm,
+                    onNavigateBack = { navController.popBackStack() }
+                )
             }
             composable<Screen.More> {
                 val vm: MoreViewModel = viewModel { MoreViewModel(babyRepository) }

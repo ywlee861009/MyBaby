@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import com.mybaby.app.core.data.BabyRepository
 import com.mybaby.app.core.data.HealthRecordRepository
 import com.mybaby.app.core.data.LetterRepository
+import com.mybaby.app.core.data.ScheduleRepository
 import com.mybaby.app.navigation.AppNavigation
 import com.mybaby.app.navigation.Screen
 import com.mybaby.app.ui.theme.MyBabyTheme
@@ -17,6 +18,7 @@ fun App(
     babyRepository: BabyRepository,
     letterRepository: LetterRepository,
     healthRecordRepository: HealthRecordRepository,
+    scheduleRepository: ScheduleRepository,
     onExit: () -> Unit = {}
 ) {
     MyBabyTheme {
@@ -34,6 +36,7 @@ fun App(
                 babyRepository = babyRepository,
                 letterRepository = letterRepository,
                 healthRecordRepository = healthRecordRepository,
+                scheduleRepository = scheduleRepository,
                 onExit = onExit
             )
         } else {

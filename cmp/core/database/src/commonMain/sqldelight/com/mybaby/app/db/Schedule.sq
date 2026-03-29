@@ -1,0 +1,31 @@
+CREATE TABLE ScheduleEntity (
+    id TEXT NOT NULL PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL DEFAULT '',
+    dateMillis INTEGER NOT NULL,
+    location TEXT,
+    category TEXT NOT NULL DEFAULT 'ETC',
+    notification TEXT NOT NULL DEFAULT 'NONE',
+    isCompleted INTEGER NOT NULL DEFAULT 0,
+    createdAt INTEGER NOT NULL,
+    updatedAt INTEGER NOT NULL
+);
+
+selectAll:
+SELECT * FROM ScheduleEntity ORDER BY dateMillis ASC;
+
+selectByDateRange:
+SELECT * FROM ScheduleEntity WHERE dateMillis >= ? AND dateMillis <= ? ORDER BY dateMillis ASC;
+
+selectById:
+SELECT * FROM ScheduleEntity WHERE id = ? LIMIT 1;
+
+insertSchedule:
+INSERT OR REPLACE INTO ScheduleEntity(id, title, description, dateMillis, location, category, notification, isCompleted, createdAt, updatedAt)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+deleteSchedule:
+DELETE FROM ScheduleEntity WHERE id = ?;
+
+updateCompleted:
+UPDATE ScheduleEntity SET isCompleted = ?, updatedAt = ? WHERE id = ?;
