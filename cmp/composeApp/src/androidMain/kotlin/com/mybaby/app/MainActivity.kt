@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.remember
 import com.mybaby.app.core.data.BabyRepositoryImpl
+import com.mybaby.app.core.data.HealthRecordRepositoryImpl
 import com.mybaby.app.core.data.LetterRepositoryImpl
 import com.mybaby.app.core.database.DatabaseDriverFactory
 import com.mybaby.app.db.PumDatabase
@@ -21,9 +22,11 @@ class MainActivity : ComponentActivity() {
             }
             val letterRepository = remember { LetterRepositoryImpl(database) }
             val babyRepository = remember { BabyRepositoryImpl(database) }
+            val healthRecordRepository = remember { HealthRecordRepositoryImpl(database) }
             App(
                 babyRepository = babyRepository,
                 letterRepository = letterRepository,
+                healthRecordRepository = healthRecordRepository,
                 onExit = { finish() }
             )
         }

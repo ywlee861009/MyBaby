@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 sealed class Screen {
     @Serializable data object Home : Screen()
     @Serializable data object HealthRecord : Screen()
+    @Serializable data class HealthRecordAdd(val category: String? = null) : Screen()
     @Serializable sealed class Letter : Screen() {
         @Serializable data object List : Letter()
         @Serializable data object Write : Letter()

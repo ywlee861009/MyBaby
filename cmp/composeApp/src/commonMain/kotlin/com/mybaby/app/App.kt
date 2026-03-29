@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.mybaby.app.core.data.BabyRepository
+import com.mybaby.app.core.data.HealthRecordRepository
 import com.mybaby.app.core.data.LetterRepository
 import com.mybaby.app.navigation.AppNavigation
 import com.mybaby.app.navigation.Screen
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.first
 fun App(
     babyRepository: BabyRepository,
     letterRepository: LetterRepository,
+    healthRecordRepository: HealthRecordRepository,
     onExit: () -> Unit = {}
 ) {
     MyBabyTheme {
@@ -31,6 +33,7 @@ fun App(
                 startDestination = dest,
                 babyRepository = babyRepository,
                 letterRepository = letterRepository,
+                healthRecordRepository = healthRecordRepository,
                 onExit = onExit
             )
         } else {

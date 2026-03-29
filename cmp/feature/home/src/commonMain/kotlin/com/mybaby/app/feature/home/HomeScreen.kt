@@ -356,13 +356,13 @@ private fun HomeSectionF_Records(
                     val dateStr = "${localDate.monthNumber}월 ${localDate.dayOfMonth}일"
 
                     val (value, unit, label) = when {
-                        record.weight != null -> Triple(
-                            record.weight.toString(),
+                        record.weightKg != null -> Triple(
+                            record.weightKg.toString(),
                             "kg",
                             "체중"
                         )
-                        record.fetalMovementCount != null -> Triple(
-                            record.fetalMovementCount.toString(),
+                        record.kickCount != null -> Triple(
+                            record.kickCount.toString(),
                             "회",
                             "태동"
                         )

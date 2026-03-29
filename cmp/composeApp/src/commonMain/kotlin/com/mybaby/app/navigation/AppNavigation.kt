@@ -44,10 +44,15 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mybaby.app.core.data.BabyRepository
+import com.mybaby.app.core.data.HealthRecordRepository
 import com.mybaby.app.core.data.LetterRepository
 import com.mybaby.app.core.model.BabyGender
 import com.mybaby.app.feature.home.HomeScreen
 import com.mybaby.app.feature.home.HomeViewModel
+import com.mybaby.app.feature.record.HealthRecordListScreen
+import com.mybaby.app.feature.record.HealthRecordListViewModel
+import com.mybaby.app.feature.record.HealthRecordAddScreen
+import com.mybaby.app.feature.record.HealthRecordAddViewModel
 import com.mybaby.app.feature.letter.LetterListScreen
 import com.mybaby.app.feature.letter.LetterWriteScreen
 import com.mybaby.app.feature.letter.LetterDetailScreen
@@ -104,6 +109,7 @@ fun AppNavigation(
     startDestination: Screen = Screen.Home,
     babyRepository: BabyRepository,
     letterRepository: LetterRepository,
+    healthRecordRepository: HealthRecordRepository,
     onExit: () -> Unit = {}
 ) {
     val navController = rememberNavController()
@@ -115,6 +121,7 @@ fun AppNavigation(
 
     val showBottomBar = currentDestination?.hasRoute(Screen.Letter.Write::class) != true &&
             currentDestination?.hasRoute(Screen.Letter.Edit::class) != true &&
+            currentDestination?.hasRoute(Screen.HealthRecordAdd::class) != true &&
             !currentDestination.isSetupScreen()
 
     // 최상위 탭에 있을 때만 백프레스 인터셉트
@@ -269,7 +276,25 @@ fun AppNavigation(
                 )
             }
             composable<Screen.HealthRecord> {
-                PlaceholderScreen("건강 기록")
+                val vm: HealthRecordListViewModel = viewModel { HealthRecordListViewModel(healthRecordRepository) }
+                HealthRecordListScreen(
+                    viewModel = vm,
+                    onNavigateToAdd = { navController.navigate(Screen.HealthRecordAdd()) }
+                )
+            }
+            composable<Screen.HealthRecordAdd> { backStackEntry ->
+                val route = backStackEntry.toRoute<Screen.HealthRecordAdd>()
+                val vm: HealthRecordAddViewModel = viewModel {
+                    HealthRecordAddViewModel(
+                        repository = healthRecordRepository,
+                        babyRepository = babyRepository,
+                        initialCategory = route.category
+                    )
+                }
+                HealthRecordAddScreen(
+                    viewModel = vm,
+                    onNavigateBack = { navController.popBackStack() }
+                )
             }
             composable<Screen.Letter.List> {
                 val vm: LetterListViewModel = viewModel { LetterListViewModel(letterRepository) }

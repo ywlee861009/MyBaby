@@ -33,6 +33,7 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":feature:home"))
             implementation(project(":feature:letter"))
+            implementation(project(":feature:record"))
             implementation(project(":feature:setup"))
             implementation(project(":feature:more"))
             implementation(project(":core:model"))

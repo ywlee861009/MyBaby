@@ -84,12 +84,12 @@ class HomeViewModel(private val babyRepository: BabyRepository) : ViewModel() {
                     HealthRecord(
                         id = "rc_1",
                         date = nowMillis - 2 * 24 * 3600 * 1000L,
-                        weight = 62.5
+                        weightKg = 62.5
                     ),
                     HealthRecord(
                         id = "rc_2",
                         date = nowMillis - 9 * 24 * 3600 * 1000L,
-                        weight = 62.3
+                        weightKg = 62.3
                     )
                 )
 
