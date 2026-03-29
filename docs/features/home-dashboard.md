@@ -13,25 +13,70 @@
 
 ## 3. 기능적 요구사항 (Functional Requirements)
 - **[F1] 임신 현황 표시:** 현재 주차, 일수, 출산까지 남은 디데이를 계산하여 표시해야 한다.
-- **[F2] 대시보드 요약:** 아기 상태(메시지)를 카드 형태로 노출한다.
-- **[F3] 퀵 액션:** 건강 기록 화면으로 이동할 수 있는 바로가기 버튼을 제공한다.
+- **[F2] 아기 상태 메시지:** 주차별 아기 크기/상태 설명을 카드 형태로 노출한다. (예: 24주 → "망고 크기, 약 600g")
+- **[F3] 진행률 바:** 전체 임신 기간(40주) 대비 현재 진행률을 시각적으로 표시한다.
+- **[F4] 퀵 액션:** 몸무게 기록, 편지 쓰기, 진료 일정 추가, 사진 추가 등 주요 기능으로의 바로가기를 제공한다.
+- **[F5] 주간 체크리스트:** 이번 주 챙겨야 할 항목(엽산, 철분제 복용 등)을 체크리스트 형태로 표시하고 완료 처리할 수 있다.
+- **[F6] 다가오는 일정:** 가장 가까운 진료/검진 일정 2개를 요약 노출한다.
+- **[F7] 최근 기록:** 가장 최근의 건강 기록(체중 등) 2개를 요약 노출한다.
 
-## 4. 데이터 모델 (Data Model)
+## 4. 화면 구성 (Screen Layout — 6개 섹션)
+
+```
+┌─────────────────────────┐
+│ A. 헤더                  │  "안녕하세요, {nickname}님" + 오늘 날짜
+├─────────────────────────┤
+│ B. 임신 진행률 카드       │  "임신 N주 N일 · D-NNN" + 아기 크기 설명 + 진행률 바
+├─────────────────────────┤
+│ C. 퀵 액션 (4개)         │  몸무게 기록 / 편지 쓰기 / 진료 일정 추가 / 사진 추가
+├─────────────────────────┤
+│ D. 주간 체크리스트        │  3개 항목 + "더보기" 링크
+├─────────────────────────┤
+│ E. 다가오는 일정          │  2개 일정 + "더보기" 링크
+├─────────────────────────┤
+│ F. 최근 기록              │  2개 기록 + "더보기" 링크
+└─────────────────────────┘
+```
+
+## 5. 데이터 모델 (Data Model)
+
 ```kotlin
-data class BabyStatus(
-    val weeks: Int,      // 임신 주차
-    val days: Int,       // 주차 내 일수
-    val dDay: Int,       // 출산까지 남은 일수
-    val title: String,   // 상태 타이틀 (예: 쑥쑥 크는 중)
-    val message: String  // 상태 설명 메시지
+// HomeState (MVI)
+data class HomeState(
+    val isLoading: Boolean = true,
+    val nickname: String = "",
+    val todayLabel: String = "",           // "3월 29일 토요일"
+    val currentWeek: Int = 0,
+    val currentDay: Int = 0,
+    val dDay: Long = 0,
+    val babySizeDescription: String = "", // 주차별 아기 크기 설명
+    val weeklyChecklist: List<ChecklistItem> = emptyList(),
+    val upcomingSchedules: List<Schedule> = emptyList(),
+    val recentRecords: List<HealthRecord> = emptyList()
 )
 ```
 
-## 5. 현재 구현 상태 (Implementation Status)
+아기 크기 설명 예시 (주차별):
+- 1-4주: "양귀비 씨앗 크기에요"
+- 5-8주: "블루베리 크기에요 (약 1.5cm)"
+- 9-12주: "자두 크기에요 (약 5cm)"
+- 13-16주: "사과 크기에요 (약 10cm)"
+- 17-20주: "바나나 크기에요 (약 20cm)"
+- 21-24주: "망고 크기에요 (약 30cm)"
+- 25-28주: "콜리플라워 크기에요 (약 35cm)"
+- 29-32주: "파인애플 크기에요 (약 40cm)"
+- 33-36주: "멜론 크기에요 (약 45cm)"
+- 37-40주: "수박 크기에요 (약 50cm)"
+
+## 6. 현재 구현 상태 (Implementation Status)
 - **[완료] UI (MVI):**
-    - `HomeContract.kt`: Dashboard 상태 및 Intent 정의.
-    - `HomeViewModel.kt`: MVI 패턴 기반 상태 관리. 현재는 MVP를 위해 더미 데이터를 사용 중.
-    - `HomeScreen.kt`: 주차, 디데이, 상태 카드를 포함한 대시보드 레이아웃 구현.
-- **[준비 중] 데이터 소스 연동:**
-    - 사용자가 온보딩에서 입력한 출산 예정일 정보를 기반으로 `BabyStatus`를 동적으로 계산하는 로직 필요.
-    - `SCREEN_FLOWS.md`에 정의된 '빠른 액션(체중, 편지 등 가로 스크롤)', '체크리스트', '다가오는 일정' 섹션은 추후 고도화 단계에서 구현 예정.
+    - `HomeContract.kt`: 6개 섹션 표시에 필요한 `HomeState`, `HomeIntent`, `HomeUiEvent` 정의.
+    - `HomeViewModel.kt`: MVI 패턴 기반 상태 관리. Baby Repository 연동으로 임신 주차·디데이 실시간 계산. 체크리스트 항목 토글 처리.
+    - `HomeScreen.kt`: 6개 섹션을 포함한 스크롤 가능한 대시보드 레이아웃 구현.
+- **[진행 중] 실제 데이터 연동:**
+    - 임신 주차·디데이: `BabyRepository`에서 출산 예정일을 읽어 실시간 계산 — 완료.
+    - 주간 체크리스트: 현재 하드코딩된 더미 데이터 3개 (엽산, 철분제, 산부인과 예약). 실제 데이터 연동 필요.
+    - 다가오는 일정: 현재 더미 데이터 2개. `Schedule` 모델/Repository는 정의되어 있으나 일정 기능 UI 미구현으로 데이터 미연동.
+    - 최근 기록: 현재 더미 데이터 2개. `HealthRecord` 모델/Repository는 정의되어 있으나 기록 기능 UI 미구현으로 데이터 미연동.
+- **[미구현] 기록 탭 (HealthRecord) 화면:** `PlaceholderScreen` 으로 대체 중.
+- **[미구현] 일정 탭 (Schedule) 화면:** `PlaceholderScreen` 으로 대체 중.
