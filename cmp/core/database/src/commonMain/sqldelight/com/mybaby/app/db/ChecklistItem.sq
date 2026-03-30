@@ -1,0 +1,20 @@
+CREATE TABLE ChecklistItemEntity (
+    id TEXT NOT NULL PRIMARY KEY,
+    text TEXT NOT NULL,
+    isChecked INTEGER NOT NULL DEFAULT 0,
+    weekNumber INTEGER NOT NULL,
+    createdAt INTEGER NOT NULL
+);
+
+selectByWeek:
+SELECT * FROM ChecklistItemEntity WHERE weekNumber = ? ORDER BY createdAt ASC;
+
+insertItem:
+INSERT OR REPLACE INTO ChecklistItemEntity(id, text, isChecked, weekNumber, createdAt)
+VALUES (?, ?, ?, ?, ?);
+
+updateChecked:
+UPDATE ChecklistItemEntity SET isChecked = ? WHERE id = ?;
+
+deleteItem:
+DELETE FROM ChecklistItemEntity WHERE id = ?;
