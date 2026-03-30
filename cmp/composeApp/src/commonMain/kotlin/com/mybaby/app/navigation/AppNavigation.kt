@@ -262,7 +262,13 @@ fun AppNavigation(
                 val homeViewModel: HomeViewModel = viewModel { HomeViewModel(babyRepository) }
                 HomeScreen(
                     viewModel = homeViewModel,
-                    onNavigateToRecord = { navController.navigate(Screen.HealthRecord) },
+                    onNavigateToRecord = {
+                        navController.navigate(Screen.HealthRecord) {
+                            popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
                     onNavigateToLetterWrite = { navController.navigate(Screen.Letter.Write) },
                     onNavigateToScheduleAdd = {
                         navController.navigate(Screen.Schedule) {
