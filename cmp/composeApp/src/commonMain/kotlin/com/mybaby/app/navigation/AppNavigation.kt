@@ -44,6 +44,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mybaby.app.core.data.BabyRepository
+import com.mybaby.app.core.data.ChecklistRepository
 import com.mybaby.app.core.data.HealthRecordRepository
 import com.mybaby.app.core.data.LetterRepository
 import com.mybaby.app.core.data.ScheduleRepository
@@ -121,6 +122,7 @@ fun AppNavigation(
     letterRepository: LetterRepository,
     healthRecordRepository: HealthRecordRepository,
     scheduleRepository: ScheduleRepository,
+    checklistRepository: ChecklistRepository,
     onExit: () -> Unit = {}
 ) {
     val navController = rememberNavController()
@@ -259,7 +261,9 @@ fun AppNavigation(
 
             // ── 메인 화면 ─────────────────────────────────────
             composable<Screen.Home> {
-                val homeViewModel: HomeViewModel = viewModel { HomeViewModel(babyRepository) }
+                val homeViewModel: HomeViewModel = viewModel {
+                    HomeViewModel(babyRepository, checklistRepository, scheduleRepository, healthRecordRepository)
+                }
                 HomeScreen(
                     viewModel = homeViewModel,
                     onNavigateToRecord = {

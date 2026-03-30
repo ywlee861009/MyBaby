@@ -3,9 +3,10 @@ package com.mybaby.app.feature.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mybaby.app.core.data.BabyRepository
-import com.mybaby.app.core.model.HealthRecord
-import com.mybaby.app.core.model.Schedule
-import com.mybaby.app.core.model.ScheduleCategory
+import com.mybaby.app.core.data.ChecklistRepository
+import com.mybaby.app.core.data.HealthRecordRepository
+import com.mybaby.app.core.data.ScheduleRepository
+import com.mybaby.app.core.model.ChecklistItem as DomainChecklistItem
 import com.mybaby.app.ui.components.ChecklistItem
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +20,12 @@ import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-class HomeViewModel(private val babyRepository: BabyRepository) : ViewModel() {
+class HomeViewModel(
+    private val babyRepository: BabyRepository,
+    private val checklistRepository: ChecklistRepository,
+    private val scheduleRepository: ScheduleRepository,
+    private val healthRecordRepository: HealthRecordRepository
+) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
@@ -57,42 +63,6 @@ class HomeViewModel(private val babyRepository: BabyRepository) : ViewModel() {
                 val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
                 val todayLabel = "${today.monthNumber}월 ${today.dayOfMonth}일 ${today.dayOfWeek.korLabel()}"
 
-                val dummyChecklist = listOf(
-                    ChecklistItem("cl_1", "엽산 복용하기", true),
-                    ChecklistItem("cl_2", "철분제 복용하기", false),
-                    ChecklistItem("cl_3", "산부인과 예약 확인하기", false)
-                )
-
-                val dummySchedules = listOf(
-                    Schedule(
-                        id = "sc_1",
-                        title = "정기 검진",
-                        description = "○○산부인과",
-                        dateMillis = nowMillis + 7 * 24 * 3600 * 1000L,
-                        category = ScheduleCategory.CHECKUP
-                    ),
-                    Schedule(
-                        id = "sc_2",
-                        title = "초음파 검사",
-                        description = "태아 성장 확인",
-                        dateMillis = nowMillis + 14 * 24 * 3600 * 1000L,
-                        category = ScheduleCategory.ULTRASOUND
-                    )
-                )
-
-                val dummyRecords = listOf(
-                    HealthRecord(
-                        id = "rc_1",
-                        date = nowMillis - 2 * 24 * 3600 * 1000L,
-                        weightKg = 62.5
-                    ),
-                    HealthRecord(
-                        id = "rc_2",
-                        date = nowMillis - 9 * 24 * 3600 * 1000L,
-                        weightKg = 62.3
-                    )
-                )
-
                 val msPerDay = 24L * 3600L * 1000L
                 val msPerWeek = 7L * msPerDay
                 val dueDate = baby?.dueDate
@@ -107,6 +77,20 @@ class HomeViewModel(private val babyRepository: BabyRepository) : ViewModel() {
                     Triple(0, 0, 0)
                 }
 
+                // 체크리스트: DB에서 현재 주차 데이터 로드, 없으면 기본값 생성
+                val checklistItems = loadOrSeedChecklist(currentWeek)
+
+                // 일정: DB에서 오늘 이후 가장 가까운 일정 2개 로드
+                val allSchedules = scheduleRepository.getAllSchedules().first()
+                val upcomingSchedules = allSchedules
+                    .filter { it.dateMillis >= nowMillis - msPerDay }
+                    .sortedBy { it.dateMillis }
+                    .take(2)
+
+                // 건강기록: DB에서 최근 기록 2개 로드
+                val allRecords = healthRecordRepository.getAllRecords().first()
+                val recentRecords = allRecords.take(2)
+
                 _state.update {
                     it.copy(
                         isLoading = false,
@@ -116,9 +100,9 @@ class HomeViewModel(private val babyRepository: BabyRepository) : ViewModel() {
                         currentDay = currentDay,
                         dDay = dDay,
                         babySizeDescription = getBabySizeDescription(currentWeek),
-                        weeklyChecklist = dummyChecklist,
-                        upcomingSchedules = dummySchedules,
-                        recentRecords = dummyRecords
+                        weeklyChecklist = checklistItems,
+                        upcomingSchedules = upcomingSchedules,
+                        recentRecords = recentRecords
                     )
                 }
             } catch (e: Exception) {
@@ -127,15 +111,95 @@ class HomeViewModel(private val babyRepository: BabyRepository) : ViewModel() {
         }
     }
 
-    private fun toggleChecklistItem(itemId: String) {
-        _state.update { state ->
-            state.copy(
-                weeklyChecklist = state.weeklyChecklist.map { item ->
-                    if (item.id == itemId) item.copy(isChecked = !item.isChecked) else item
-                }
+    private suspend fun loadOrSeedChecklist(weekNumber: Int): List<ChecklistItem> {
+        val existing = checklistRepository.getItemsByWeek(weekNumber).first()
+        if (existing.isNotEmpty()) {
+            return existing.map { it.toUiModel() }
+        }
+
+        // 현재 주차에 체크리스트가 없으면 기본 항목 생성
+        val now = Clock.System.now().toEpochMilliseconds()
+        val defaults = getDefaultChecklistItems(weekNumber)
+        defaults.forEachIndexed { index, text ->
+            val item = DomainChecklistItem(
+                id = "cl_${weekNumber}_$index",
+                text = text,
+                isChecked = false,
+                weekNumber = weekNumber,
+                createdAt = now + index
             )
+            checklistRepository.saveItem(item)
+        }
+        return checklistRepository.getItemsByWeek(weekNumber).first().map { it.toUiModel() }
+    }
+
+    private fun getDefaultChecklistItems(week: Int): List<String> {
+        val base = mutableListOf("엽산 복용하기")
+        when (week) {
+            in 0..12 -> {
+                base.add("산부인과 초진 예약하기")
+                base.add("임신 확인서 발급받기")
+            }
+            in 13..16 -> {
+                base.add("철분제 복용 시작하기")
+                base.add("기형아 검사 일정 확인하기")
+            }
+            in 17..20 -> {
+                base.add("철분제 복용하기")
+                base.add("정밀 초음파 예약 확인하기")
+            }
+            in 21..24 -> {
+                base.add("철분제 복용하기")
+                base.add("임신성 당뇨 검사 준비하기")
+            }
+            in 25..28 -> {
+                base.add("철분제 복용하기")
+                base.add("백일해 예방접종 확인하기")
+            }
+            in 29..32 -> {
+                base.add("철분제 복용하기")
+                base.add("출산 가방 준비하기")
+            }
+            in 33..36 -> {
+                base.add("철분제 복용하기")
+                base.add("분만 방법 상담하기")
+            }
+            in 37..40 -> {
+                base.add("태동 횟수 확인하기")
+                base.add("입원 준비물 최종 점검하기")
+            }
+            else -> {
+                base.add("철분제 복용하기")
+                base.add("산부인과 예약 확인하기")
+            }
+        }
+        return base
+    }
+
+    private fun toggleChecklistItem(itemId: String) {
+        viewModelScope.launch {
+            val currentItem = _state.value.weeklyChecklist.find { it.id == itemId } ?: return@launch
+            val newChecked = !currentItem.isChecked
+
+            // DB 업데이트
+            checklistRepository.updateChecked(itemId, newChecked)
+
+            // UI 상태 업데이트
+            _state.update { state ->
+                state.copy(
+                    weeklyChecklist = state.weeklyChecklist.map { item ->
+                        if (item.id == itemId) item.copy(isChecked = newChecked) else item
+                    }
+                )
+            }
         }
     }
+
+    private fun DomainChecklistItem.toUiModel() = ChecklistItem(
+        id = id,
+        text = text,
+        isChecked = isChecked
+    )
 
     private fun getBabySizeDescription(week: Int): String = when (week) {
         in 1..4 -> "양귀비 씨앗"

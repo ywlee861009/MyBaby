@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.mybaby.app.core.data.BabyRepository
+import com.mybaby.app.core.data.ChecklistRepository
 import com.mybaby.app.core.data.HealthRecordRepository
 import com.mybaby.app.core.data.LetterRepository
 import com.mybaby.app.core.data.ScheduleRepository
@@ -19,6 +20,7 @@ fun App(
     letterRepository: LetterRepository,
     healthRecordRepository: HealthRecordRepository,
     scheduleRepository: ScheduleRepository,
+    checklistRepository: ChecklistRepository,
     onExit: () -> Unit = {}
 ) {
     MyBabyTheme {
@@ -37,6 +39,7 @@ fun App(
                 letterRepository = letterRepository,
                 healthRecordRepository = healthRecordRepository,
                 scheduleRepository = scheduleRepository,
+                checklistRepository = checklistRepository,
                 onExit = onExit
             )
         } else {
