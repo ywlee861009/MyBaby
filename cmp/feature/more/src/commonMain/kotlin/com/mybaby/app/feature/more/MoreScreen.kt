@@ -11,7 +11,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DateRange
-import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -31,7 +30,13 @@ import kotlinx.datetime.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MoreScreen(viewModel: MoreViewModel) {
+fun MoreScreen(
+    viewModel: MoreViewModel,
+    isDarkMode: Boolean = false,
+    onToggleDarkMode: (Boolean) -> Unit = {},
+    onNavigateToWeeklyChecklist: () -> Unit = {},
+    onNavigateToAppInfo: () -> Unit = {}
+) {
     val state by viewModel.state.collectAsState()
     var showDatePicker by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
@@ -118,9 +123,13 @@ fun MoreScreen(viewModel: MoreViewModel) {
                     )
                 }
                 else -> {
-                    ViewContent(
+                    MenuContent(
                         baby = state.baby!!,
-                        onEditClick = { viewModel.handleIntent(MoreIntent.StartEdit) },
+                        isDarkMode = isDarkMode,
+                        onToggleDarkMode = onToggleDarkMode,
+                        onEditProfile = { viewModel.handleIntent(MoreIntent.StartEdit) },
+                        onNavigateToWeeklyChecklist = onNavigateToWeeklyChecklist,
+                        onNavigateToAppInfo = onNavigateToAppInfo,
                         modifier = Modifier.fillMaxSize()
                     )
                 }
@@ -130,61 +139,58 @@ fun MoreScreen(viewModel: MoreViewModel) {
 }
 
 @Composable
-private fun ViewContent(
+private fun MenuContent(
     baby: Baby,
-    onEditClick: () -> Unit,
+    isDarkMode: Boolean,
+    onToggleDarkMode: (Boolean) -> Unit,
+    onEditProfile: () -> Unit,
+    onNavigateToWeeklyChecklist: () -> Unit,
+    onNavigateToAppInfo: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val isBorn = baby.birthDate != null
     val dateMillis = if (isBorn) baby.birthDate else baby.dueDate
-    val pregnancyInfo: Pair<Int, Int>? = if (!isBorn && dateMillis != null) {
+    val pregnancyWeeks: Int? = if (!isBorn && dateMillis != null) {
         val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
         val dueDate = Instant.fromEpochMilliseconds(dateMillis)
             .toLocalDateTime(TimeZone.currentSystemDefault()).date
         val daysUntilDue = today.daysUntil(dueDate)
         val daysPregnant = 280 - daysUntilDue
-        Pair((daysPregnant / 7).coerceAtLeast(0), (daysPregnant % 7).coerceAtLeast(0))
+        (daysPregnant / 7).coerceAtLeast(0)
     } else null
 
     Column(
         modifier = modifier
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 20.dp)
-            .padding(top = 24.dp, bottom = 32.dp)
+            .padding(top = 24.dp, bottom = 32.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // 헤더
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "더보기",
-                style = PumTheme.typography.headlineMedium,
-                color = PumTheme.colors.onBackground,
-                fontWeight = FontWeight.Bold
-            )
-            IconButton(onClick = onEditClick) {
-                Icon(
-                    imageVector = Icons.Rounded.Edit,
-                    contentDescription = "수정",
-                    tint = PumTheme.colors.primary
-                )
-            }
-        }
+        Text(
+            text = "더보기",
+            style = PumTheme.typography.headlineMedium,
+            color = PumTheme.colors.onBackground,
+            fontWeight = FontWeight.Bold
+        )
 
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // 아기 프로필 카드
+        // 프로필 카드
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(20.dp))
                 .background(PumTheme.colors.surface)
-                .padding(24.dp)
+                .padding(20.dp)
         ) {
-            Column {
-                Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(14.dp)
+                ) {
                     Box(
                         modifier = Modifier
                             .size(56.dp)
@@ -192,113 +198,182 @@ private fun ViewContent(
                             .background(PumTheme.colors.primaryLight),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(
-                            text = if (isBorn) "👶" else "🍼",
-                            fontSize = 24.sp
-                        )
+                        Text(text = if (isBorn) "👶" else "🤰", fontSize = 26.sp)
                     }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Column {
+
+                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         Text(
                             text = baby.nickname,
-                            style = PumTheme.typography.headlineSmall,
-                            color = PumTheme.colors.onSurface,
-                            fontWeight = FontWeight.Bold
+                            fontSize = 17.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = PumTheme.colors.onSurface
                         )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                             InfoChip(
                                 text = baby.gender.label(),
                                 containerColor = PumTheme.colors.primaryLight,
                                 textColor = PumTheme.colors.primary
                             )
-                            InfoChip(
-                                text = if (isBorn) "출산 완료" else "임신 중",
-                                containerColor = PumTheme.colors.secondaryLight,
-                                textColor = PumTheme.colors.secondaryVariant
-                            )
+                            if (pregnancyWeeks != null) {
+                                InfoChip(
+                                    text = "${pregnancyWeeks}주차",
+                                    containerColor = PumTheme.colors.secondaryLight,
+                                    textColor = PumTheme.colors.secondaryVariant
+                                )
+                            } else if (isBorn) {
+                                InfoChip(
+                                    text = "출산 완료",
+                                    containerColor = PumTheme.colors.secondaryLight,
+                                    textColor = PumTheme.colors.secondaryVariant
+                                )
+                            }
                         }
                     }
                 }
-            }
-        }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // 날짜 정보 카드
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(20.dp))
-                .background(PumTheme.colors.surface)
-                .padding(24.dp)
-        ) {
-            Column {
-                SectionTitle(if (isBorn) "생일" else "출산 예정일")
-                Spacer(modifier = Modifier.height(12.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.Rounded.DateRange,
-                        contentDescription = null,
-                        tint = PumTheme.colors.primary,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
+                TextButton(onClick = onEditProfile) {
                     Text(
-                        text = dateMillis?.let { millis ->
-                            val d = Instant.fromEpochMilliseconds(millis)
-                                .toLocalDateTime(TimeZone.currentSystemDefault()).date
-                            "${d.year}년 ${d.monthNumber}월 ${d.dayOfMonth}일"
-                        } ?: "미정",
-                        style = PumTheme.typography.bodyLarge,
-                        color = PumTheme.colors.onSurface,
+                        text = "편집",
+                        fontSize = 13.sp,
+                        color = PumTheme.colors.primary,
                         fontWeight = FontWeight.SemiBold
                     )
                 }
-
-                if (!isBorn && pregnancyInfo != null) {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    HorizontalDivider(color = PumTheme.colors.outline)
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(
-                                text = "임신 주수",
-                                style = PumTheme.typography.labelSmall,
-                                color = PumTheme.colors.onSurfaceSubtle
-                            )
-                            Spacer(modifier = Modifier.height(4.dp))
-                            Text(
-                                text = "${pregnancyInfo.first}주 ${pregnancyInfo.second}일",
-                                style = PumTheme.typography.headlineSmall,
-                                color = PumTheme.colors.primary,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(
-                                text = "출산까지",
-                                style = PumTheme.typography.labelSmall,
-                                color = PumTheme.colors.onSurfaceSubtle
-                            )
-                            Spacer(modifier = Modifier.height(4.dp))
-                            val daysLeft = ((40 - pregnancyInfo.first) * 7 - pregnancyInfo.second).coerceAtLeast(0)
-                            Text(
-                                text = "${daysLeft}일",
-                                style = PumTheme.typography.headlineSmall,
-                                color = PumTheme.colors.secondaryVariant,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                    }
-                }
             }
+        }
+
+        // 임신 정보 섹션
+        MenuSection(title = "임신 정보") {
+            MenuRow(emoji = "📅", label = "출산 예정일 변경", onClick = onEditProfile)
+            HorizontalDivider(
+                modifier = Modifier.padding(start = 52.dp),
+                color = PumTheme.colors.outline
+            )
+            MenuRow(
+                emoji = "✅",
+                label = "주차별 체크리스트",
+                onClick = onNavigateToWeeklyChecklist
+            )
+        }
+
+        // 설정 섹션
+        MenuSection(title = "설정") {
+            DarkModeRow(isDarkMode = isDarkMode, onToggle = onToggleDarkMode)
+        }
+
+        // 정보 섹션
+        MenuSection(title = "정보") {
+            MenuRow(emoji = "ℹ️", label = "앱 정보", onClick = onNavigateToAppInfo)
         }
     }
 }
+
+@Composable
+private fun MenuSection(
+    title: String,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Column {
+        Text(
+            text = title,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = PumTheme.colors.onSurfaceSubtle,
+            modifier = Modifier.padding(start = 4.dp, bottom = 8.dp)
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(16.dp))
+                .background(PumTheme.colors.surface),
+            content = content
+        )
+    }
+}
+
+@Composable
+private fun MenuRow(
+    emoji: String,
+    label: String,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(horizontal = 16.dp, vertical = 14.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Text(text = emoji, fontSize = 18.sp, modifier = Modifier.size(24.dp))
+        Text(
+            text = label,
+            fontSize = 15.sp,
+            color = PumTheme.colors.onSurface,
+            modifier = Modifier.weight(1f)
+        )
+        Text(
+            text = "›",
+            fontSize = 22.sp,
+            color = PumTheme.colors.onSurfaceSubtle
+        )
+    }
+}
+
+@Composable
+private fun DarkModeRow(
+    isDarkMode: Boolean,
+    onToggle: (Boolean) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Text(text = "🌙", fontSize = 18.sp, modifier = Modifier.size(24.dp))
+        Text(
+            text = "다크 모드",
+            fontSize = 15.sp,
+            color = PumTheme.colors.onSurface,
+            modifier = Modifier.weight(1f)
+        )
+        Switch(
+            checked = isDarkMode,
+            onCheckedChange = onToggle,
+            colors = SwitchDefaults.colors(
+                checkedThumbColor = PumTheme.colors.onPrimary,
+                checkedTrackColor = PumTheme.colors.primary,
+                uncheckedThumbColor = PumTheme.colors.onPrimary,
+                uncheckedTrackColor = PumTheme.colors.outline
+            )
+        )
+    }
+}
+
+@Composable
+private fun InfoChip(
+    text: String,
+    containerColor: Color,
+    textColor: Color
+) {
+    Box(
+        modifier = Modifier
+            .clip(RoundedCornerShape(8.dp))
+            .background(containerColor)
+            .padding(horizontal = 10.dp, vertical = 4.dp)
+    ) {
+        Text(
+            text = text,
+            style = PumTheme.typography.labelSmall,
+            color = textColor,
+            fontWeight = FontWeight.SemiBold
+        )
+    }
+}
+
+// ─── 편집 화면 ───────────────────────────────────────────────────────────────────
 
 @Composable
 private fun EditContent(
@@ -314,7 +389,6 @@ private fun EditContent(
             .padding(horizontal = 20.dp)
             .padding(top = 24.dp, bottom = 32.dp)
     ) {
-        // 헤더
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -333,7 +407,6 @@ private fun EditContent(
 
         Spacer(modifier = Modifier.height(28.dp))
 
-        // 닉네임
         FieldLabel("아기 닉네임")
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
@@ -357,7 +430,6 @@ private fun EditContent(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // 성별
         FieldLabel("성별")
         Spacer(modifier = Modifier.height(8.dp))
         Row(
@@ -379,7 +451,6 @@ private fun EditContent(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // 현재 상태
         FieldLabel("현재 상태")
         Spacer(modifier = Modifier.height(8.dp))
         Row(
@@ -408,7 +479,6 @@ private fun EditContent(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // 날짜 선택
         FieldLabel(if (state.editIsBorn) "아기 생일" else "출산 예정일")
         Spacer(modifier = Modifier.height(8.dp))
         DateSelectButton(
@@ -417,7 +487,6 @@ private fun EditContent(
             onClick = onShowDatePicker
         )
 
-        // 임신 주수 표시
         if (!state.editIsBorn && state.editDateMillis != null) {
             Spacer(modifier = Modifier.height(16.dp))
             Box(
@@ -457,7 +526,6 @@ private fun EditContent(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // 저장 버튼
         Button(
             onClick = { onIntent(MoreIntent.Save) },
             enabled = state.canSave && !state.isSaving,
@@ -536,27 +604,6 @@ private fun DateSelectButton(
 }
 
 @Composable
-private fun InfoChip(
-    text: String,
-    containerColor: Color,
-    textColor: Color
-) {
-    Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(8.dp))
-            .background(containerColor)
-            .padding(horizontal = 10.dp, vertical = 4.dp)
-    ) {
-        Text(
-            text = text,
-            style = PumTheme.typography.labelSmall,
-            color = textColor,
-            fontWeight = FontWeight.SemiBold
-        )
-    }
-}
-
-@Composable
 private fun SelectableChip(
     label: String,
     isSelected: Boolean,
@@ -596,15 +643,5 @@ private fun FieldLabel(text: String) {
         color = PumTheme.colors.onSurface,
         fontWeight = FontWeight.SemiBold,
         modifier = Modifier.fillMaxWidth()
-    )
-}
-
-@Composable
-private fun SectionTitle(text: String) {
-    Text(
-        text = text,
-        style = PumTheme.typography.labelLarge,
-        color = PumTheme.colors.onSurfaceSubtle,
-        fontWeight = FontWeight.Medium
     )
 }

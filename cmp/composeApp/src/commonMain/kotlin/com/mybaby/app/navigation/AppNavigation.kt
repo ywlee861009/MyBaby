@@ -73,8 +73,11 @@ import com.mybaby.app.feature.letter.LetterListViewModel
 import com.mybaby.app.feature.letter.LetterWriteViewModel
 import com.mybaby.app.feature.letter.LetterDetailViewModel
 import com.mybaby.app.feature.letter.LetterEditViewModel
+import com.mybaby.app.feature.more.AppInfoScreen
 import com.mybaby.app.feature.more.MoreScreen
 import com.mybaby.app.feature.more.MoreViewModel
+import com.mybaby.app.feature.more.WeeklyChecklistScreen
+import com.mybaby.app.feature.more.WeeklyChecklistViewModel
 import com.mybaby.app.feature.setup.SetupBabyInfoScreen
 import com.mybaby.app.feature.setup.SetupBabyInfoViewModel
 import com.mybaby.app.feature.setup.SetupPregnancyInfoScreen
@@ -129,6 +132,8 @@ fun AppNavigation(
     healthRecordRepository: HealthRecordRepository,
     scheduleRepository: ScheduleRepository,
     checklistRepository: ChecklistRepository,
+    isDarkMode: Boolean = false,
+    onToggleDarkMode: (Boolean) -> Unit = {},
     onExit: () -> Unit = {}
 ) {
     val navController = rememberNavController()
@@ -145,6 +150,8 @@ fun AppNavigation(
             currentDestination?.hasRoute(Screen.HealthRecordEdit::class) != true &&
             currentDestination?.hasRoute(Screen.ScheduleAdd::class) != true &&
             currentDestination?.hasRoute(Screen.WeightChart::class) != true &&
+            currentDestination?.hasRoute(Screen.WeeklyChecklist::class) != true &&
+            currentDestination?.hasRoute(Screen.AppInfo::class) != true &&
             !currentDestination.isSetupScreen()
 
     // 최상위 탭에 있을 때만 백프레스 인터셉트
@@ -422,7 +429,25 @@ fun AppNavigation(
             }
             composable<Screen.More> {
                 val vm: MoreViewModel = viewModel { MoreViewModel(babyRepository) }
-                MoreScreen(viewModel = vm)
+                MoreScreen(
+                    viewModel = vm,
+                    isDarkMode = isDarkMode,
+                    onToggleDarkMode = onToggleDarkMode,
+                    onNavigateToWeeklyChecklist = { navController.navigate(Screen.WeeklyChecklist) },
+                    onNavigateToAppInfo = { navController.navigate(Screen.AppInfo) }
+                )
+            }
+            composable<Screen.WeeklyChecklist> {
+                val vm: WeeklyChecklistViewModel = viewModel {
+                    WeeklyChecklistViewModel(babyRepository, checklistRepository)
+                }
+                WeeklyChecklistScreen(
+                    viewModel = vm,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable<Screen.AppInfo> {
+                AppInfoScreen(onNavigateBack = { navController.popBackStack() })
             }
         }
     }

@@ -19,6 +19,8 @@ sealed class Screen {
     @Serializable data object Schedule : Screen()
     @Serializable data class ScheduleAdd(val dateMillis: Long = 0L) : Screen()
     @Serializable data object More : Screen()
+    @Serializable data object WeeklyChecklist : Screen()
+    @Serializable data object AppInfo : Screen()
     @Serializable sealed class Setup : Screen() {
         @Serializable data object BabyInfo : Setup()
         @Serializable data class PregnancyInfo(

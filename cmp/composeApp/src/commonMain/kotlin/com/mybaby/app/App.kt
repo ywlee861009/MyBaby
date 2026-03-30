@@ -23,7 +23,9 @@ fun App(
     checklistRepository: ChecklistRepository,
     onExit: () -> Unit = {}
 ) {
-    MyBabyTheme {
+    var isDarkMode by remember { mutableStateOf(false) }
+
+    MyBabyTheme(darkTheme = isDarkMode) {
         var startDestination by remember { mutableStateOf<Screen?>(null) }
 
         LaunchedEffect(Unit) {
@@ -40,6 +42,8 @@ fun App(
                 healthRecordRepository = healthRecordRepository,
                 scheduleRepository = scheduleRepository,
                 checklistRepository = checklistRepository,
+                isDarkMode = isDarkMode,
+                onToggleDarkMode = { isDarkMode = it },
                 onExit = onExit
             )
         } else {
