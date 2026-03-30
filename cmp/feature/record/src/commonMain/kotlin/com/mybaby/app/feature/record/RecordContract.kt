@@ -106,3 +106,16 @@ sealed interface HealthRecordAddIntent {
     data object Save : HealthRecordAddIntent
     data object RequestBack : HealthRecordAddIntent
 }
+
+// ─── 체중 차트 ──────────────────────────────────────────────────────────────────
+
+data class WeightChartState(
+    val isLoading: Boolean = true,
+    val records: List<HealthRecord> = emptyList(),
+    val errorMessage: String? = null
+)
+
+sealed interface WeightChartIntent {
+    data object LoadData : WeightChartIntent
+    data object Refresh : WeightChartIntent
+}

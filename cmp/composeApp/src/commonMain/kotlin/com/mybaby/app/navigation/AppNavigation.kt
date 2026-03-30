@@ -63,6 +63,8 @@ import com.mybaby.app.feature.record.HealthRecordDetailScreen
 import com.mybaby.app.feature.record.HealthRecordDetailViewModel
 import com.mybaby.app.feature.record.HealthRecordEditScreen
 import com.mybaby.app.feature.record.HealthRecordEditViewModel
+import com.mybaby.app.feature.record.WeightChartScreen
+import com.mybaby.app.feature.record.WeightChartViewModel
 import com.mybaby.app.feature.letter.LetterListScreen
 import com.mybaby.app.feature.letter.LetterWriteScreen
 import com.mybaby.app.feature.letter.LetterDetailScreen
@@ -142,6 +144,7 @@ fun AppNavigation(
             currentDestination?.hasRoute(Screen.HealthRecordDetail::class) != true &&
             currentDestination?.hasRoute(Screen.HealthRecordEdit::class) != true &&
             currentDestination?.hasRoute(Screen.ScheduleAdd::class) != true &&
+            currentDestination?.hasRoute(Screen.WeightChart::class) != true &&
             !currentDestination.isSetupScreen()
 
     // 최상위 탭에 있을 때만 백프레스 인터셉트
@@ -308,7 +311,15 @@ fun AppNavigation(
                 HealthRecordListScreen(
                     viewModel = vm,
                     onNavigateToAdd = { navController.navigate(Screen.HealthRecordAdd()) },
-                    onNavigateToDetail = { id -> navController.navigate(Screen.HealthRecordDetail(id)) }
+                    onNavigateToDetail = { id -> navController.navigate(Screen.HealthRecordDetail(id)) },
+                    onNavigateToChart = { navController.navigate(Screen.WeightChart) }
+                )
+            }
+            composable<Screen.WeightChart> {
+                val vm: WeightChartViewModel = viewModel { WeightChartViewModel(healthRecordRepository) }
+                WeightChartScreen(
+                    viewModel = vm,
+                    onNavigateBack = { navController.popBackStack() }
                 )
             }
             composable<Screen.HealthRecordAdd> { backStackEntry ->

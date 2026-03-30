@@ -31,7 +31,8 @@ import kotlinx.datetime.toLocalDateTime
 fun HealthRecordListScreen(
     viewModel: HealthRecordListViewModel,
     onNavigateToAdd: () -> Unit,
-    onNavigateToDetail: (String) -> Unit = {}
+    onNavigateToDetail: (String) -> Unit = {},
+    onNavigateToChart: () -> Unit = {}
 ) {
     val state by viewModel.state.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -54,6 +55,11 @@ fun HealthRecordListScreen(
                         "건강 기록",
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold)
                     )
+                },
+                actions = {
+                    IconButton(onClick = onNavigateToChart) {
+                        Text("📈", fontSize = 20.sp)
+                    }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = PumTheme.colors.surface
