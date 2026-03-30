@@ -59,6 +59,10 @@ import com.mybaby.app.feature.record.HealthRecordListScreen
 import com.mybaby.app.feature.record.HealthRecordListViewModel
 import com.mybaby.app.feature.record.HealthRecordAddScreen
 import com.mybaby.app.feature.record.HealthRecordAddViewModel
+import com.mybaby.app.feature.record.HealthRecordDetailScreen
+import com.mybaby.app.feature.record.HealthRecordDetailViewModel
+import com.mybaby.app.feature.record.HealthRecordEditScreen
+import com.mybaby.app.feature.record.HealthRecordEditViewModel
 import com.mybaby.app.feature.letter.LetterListScreen
 import com.mybaby.app.feature.letter.LetterWriteScreen
 import com.mybaby.app.feature.letter.LetterDetailScreen
@@ -135,6 +139,8 @@ fun AppNavigation(
     val showBottomBar = currentDestination?.hasRoute(Screen.Letter.Write::class) != true &&
             currentDestination?.hasRoute(Screen.Letter.Edit::class) != true &&
             currentDestination?.hasRoute(Screen.HealthRecordAdd::class) != true &&
+            currentDestination?.hasRoute(Screen.HealthRecordDetail::class) != true &&
+            currentDestination?.hasRoute(Screen.HealthRecordEdit::class) != true &&
             currentDestination?.hasRoute(Screen.ScheduleAdd::class) != true &&
             !currentDestination.isSetupScreen()
 
@@ -301,7 +307,8 @@ fun AppNavigation(
                 val vm: HealthRecordListViewModel = viewModel { HealthRecordListViewModel(healthRecordRepository) }
                 HealthRecordListScreen(
                     viewModel = vm,
-                    onNavigateToAdd = { navController.navigate(Screen.HealthRecordAdd()) }
+                    onNavigateToAdd = { navController.navigate(Screen.HealthRecordAdd()) },
+                    onNavigateToDetail = { id -> navController.navigate(Screen.HealthRecordDetail(id)) }
                 )
             }
             composable<Screen.HealthRecordAdd> { backStackEntry ->
@@ -314,6 +321,27 @@ fun AppNavigation(
                     )
                 }
                 HealthRecordAddScreen(
+                    viewModel = vm,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable<Screen.HealthRecordDetail> { backStackEntry ->
+                val route = backStackEntry.toRoute<Screen.HealthRecordDetail>()
+                val vm: HealthRecordDetailViewModel = viewModel(key = route.id) {
+                    HealthRecordDetailViewModel(healthRecordRepository, route.id)
+                }
+                HealthRecordDetailScreen(
+                    viewModel = vm,
+                    onNavigateBack = { navController.popBackStack() },
+                    onNavigateToEdit = { id -> navController.navigate(Screen.HealthRecordEdit(id)) }
+                )
+            }
+            composable<Screen.HealthRecordEdit> { backStackEntry ->
+                val route = backStackEntry.toRoute<Screen.HealthRecordEdit>()
+                val vm: HealthRecordEditViewModel = viewModel(key = route.id) {
+                    HealthRecordEditViewModel(healthRecordRepository, route.id)
+                }
+                HealthRecordEditScreen(
                     viewModel = vm,
                     onNavigateBack = { navController.popBackStack() }
                 )

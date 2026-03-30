@@ -30,7 +30,8 @@ import kotlinx.datetime.toLocalDateTime
 @Composable
 fun HealthRecordListScreen(
     viewModel: HealthRecordListViewModel,
-    onNavigateToAdd: () -> Unit
+    onNavigateToAdd: () -> Unit,
+    onNavigateToDetail: (String) -> Unit = {}
 ) {
     val state by viewModel.state.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -39,6 +40,7 @@ fun HealthRecordListScreen(
         viewModel.events.collectLatest { event ->
             when (event) {
                 is RecordUiEvent.ShowSnackbar -> snackbarHostState.showSnackbar(event.message)
+                is RecordUiEvent.NavigateToDetail -> onNavigateToDetail(event.id)
                 else -> {}
             }
         }
@@ -112,6 +114,7 @@ fun HealthRecordListScreen(
                         items(state.records) { record ->
                             RecordCard(
                                 record = record,
+                                onClick = { viewModel.handleIntent(HealthRecordListIntent.OpenDetail(record.id)) },
                                 onDelete = { viewModel.handleIntent(HealthRecordListIntent.DeleteRecord(record.id)) }
                             )
                         }
@@ -161,6 +164,7 @@ private fun CategoryFilterRow(
 @Composable
 private fun RecordCard(
     record: HealthRecord,
+    onClick: () -> Unit,
     onDelete: () -> Unit
 ) {
     val colors = PumTheme.colors
@@ -194,6 +198,7 @@ private fun RecordCard(
             .shadow(elevation = 2.dp, shape = RoundedCornerShape(12.dp), spotColor = Color(0x1A000000))
             .clip(RoundedCornerShape(12.dp))
             .background(colors.surface)
+            .clickable(onClick = onClick)
             .padding(16.dp)
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {

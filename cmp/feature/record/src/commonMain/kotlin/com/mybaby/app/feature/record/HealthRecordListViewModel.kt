@@ -36,6 +36,9 @@ class HealthRecordListViewModel(
                 observeRecords(intent.category)
             }
             is HealthRecordListIntent.DeleteRecord -> deleteRecord(intent.id)
+            is HealthRecordListIntent.OpenDetail -> viewModelScope.launch {
+                _events.send(RecordUiEvent.NavigateToDetail(intent.id))
+            }
         }
     }
 
